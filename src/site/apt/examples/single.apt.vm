@@ -9,7 +9,7 @@
 Transform a set of .xml files into a single destination file
 
  The many-to-one mojo performs XSL transformation of a set of source files 
- into a single destination file as follows:
+ into a single destination file as follows.
 
  The names of the multiple source files are passed into the template as a
  comma-separated list in a parameter named 'source-file-names'. In the
@@ -36,7 +36,7 @@ Transform a set of .xml files into a single destination file
       <plugin>
         <groupId>net.sf.seaf.mojo</groupId>
         <artifactId>xslt-generator-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>${currentVersion}</version>
         <executions>
           <execution>
             <id>transform-abc</id>
@@ -44,7 +44,7 @@ Transform a set of .xml files into a single destination file
               <goal>many-to-one</goal>
             </goals>
             <configuration>
-              <xslFile>path/to/template.xsl</xslFile>
+              <xslTemplate>path/to/template.xsl</xslTemplate>
               <srcDir>src/main/xml</srcDir>
               <srcIncludes>**/*-abc.xml</srcIncludes>
               <srcFile>path/to/source.xml</srcFile>

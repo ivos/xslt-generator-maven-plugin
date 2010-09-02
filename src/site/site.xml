@@ -10,6 +10,7 @@
 			<item name="A many-to-many transform" href="examples/1-1.html" />
 			<item name="A many-to-dynamic transform" href="examples/dynamic.html" />
 			<item name="A many-to-one transform" href="examples/single.html" />
+			<item name="Skip up-to-date files" href="examples/performance.html" />
 			<item name="Default source in many-to-one" href="examples/default-source.html" />
 			<item name="Add destination dir" href="examples/add-destination.html" />
 			<item name="Rename files in-course" href="examples/rename.html" />

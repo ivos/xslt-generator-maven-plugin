@@ -40,6 +40,15 @@ XSLT Generator Maven plugin
  
  * {{{./many-to-one-mojo.html}xslt-generator:many-to-one}}
 
+ []
+ 
+ To enable skipping generation of up-to-date files (leading to performance optimization), configure
+ also the following goals:
+ 
+ * {{{./initialize-mojo.html}xslt-generator:initialize}}
+ 
+ * {{{./finalize-mojo.html}xslt-generator:finalize}}
+
 * Examples
 
  The following examples provide a good starting point into using the plugin:
@@ -49,6 +58,8 @@ XSLT Generator Maven plugin
  * {{{./examples/dynamic.html}Transform a set of .xml files, destination files generated dynamically}}
 
  * {{{./examples/single.html}Transform a set of .xml files into a single destination file}}
+
+ * {{{./examples/performance.html}Optimize performance - enable skipping of up-to-date files}}
 
  * {{{./examples/default-source.html}Using default source file in many-to-one transformation}}
 

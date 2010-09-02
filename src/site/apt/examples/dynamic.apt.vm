@@ -26,7 +26,7 @@ Transform a set of .xml files, destination files generated dynamically
       <plugin>
         <groupId>net.sf.seaf.mojo</groupId>
         <artifactId>xslt-generator-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>${currentVersion}</version>
         <executions>
           <execution>
             <id>transform-abc</id>
@@ -34,7 +34,7 @@ Transform a set of .xml files, destination files generated dynamically
               <goal>many-to-dynamic</goal>
             </goals>
             <configuration>
-              <xslFile>path/to/template.xsl</xslFile>
+              <xslTemplate>path/to/template.xsl</xslTemplate>
               <srcDir>src/main/xml</srcDir>
               <srcIncludes>**/*-abc.xml</srcIncludes>
             </configuration>

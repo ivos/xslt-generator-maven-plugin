@@ -20,7 +20,7 @@ Renaming files during many-to-many transformation
       <goal>many-to-many</goal>
     </goals>
     <configuration>
-      <xslFile>path/to/template.xsl</xslFile>
+      <xslTemplate>path/to/template.xsl</xslTemplate>
       <srcDir>src/main/xml</srcDir>
       <srcIncludes>**/*-abc.xml</srcIncludes>
       <fileNameRegex>-abc\.xml</fileNameRegex>
