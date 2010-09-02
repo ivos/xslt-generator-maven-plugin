@@ -1,0 +1,47 @@
+ ---
+ Transform a set of .xml files, each file 1:1
+ ---
+ Ivo Maixner
+ ---
+ 2008-10-29
+ ---
+
+Transform a set of .xml files, each file 1:1
+
+ The many-to-many mojo performs XSL transformation of a set of source files 
+ with destination files created as follows:
+
+ * Each source file is transformed into a single destination file, preserving
+ the directory structure. The destination directory tree is created based on
+ the source directory tree.
+
+ * Files with up-to-date timestamp are skipped.
+
+---
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.sf.seaf.mojo</groupId>
+        <artifactId>xslt-generator-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>transform-abc</id>
+            <goals>
+              <goal>many-to-many</goal>
+            </goals>
+            <configuration>
+              <xslFile>path/to/template.xsl</xslFile>
+              <srcDir>src/main/xml</srcDir>
+              <srcIncludes>**/*-abc.xml</srcIncludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+---
+

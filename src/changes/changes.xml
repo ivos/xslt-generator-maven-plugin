@@ -1,0 +1,37 @@
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+	xmlns:xsi="http://http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
+	<properties>
+		<title>Changes</title>
+		<author email="imaixner@seznam.cz">Ivo Maixner</author>
+	</properties>
+	<body>
+		<release version="1.3" date="2010-03-18">
+			<action type="update" dev="imaixner">
+				Supports consistent ordering of source files on win and linux.
+			</action>
+		</release>
+		<release version="1.2" date="2009-04-27">
+			<action type="update" dev="imaixner">
+				License fixed to Apache 2.
+			</action>
+			<action type="add" dev="imaixner">
+				Added missing setters to allow calling from another Maven plugin.
+			</action>
+			<action type="add" dev="imaixner">
+				Reads xsl files from dependencies.
+			</action>
+		</release>
+		<release version="1.1" date="2009-01-25">
+			<action type="fix" dev="imaixner">
+				When xslt file or src dir do not exist, 
+				just logs a warning and does not fail the build.
+			</action>
+		</release>
+		<release version="1.0" date="2009-01-11">
+			<action type="add" dev="imaixner">
+				Initial release.
+			</action>
+		</release>
+	</body>
+</document>

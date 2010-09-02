@@ -1,0 +1,45 @@
+ ---
+ Add the destination directory to project sources or resources
+ ---
+ Ivo Maixner
+ ---
+ 2008-10-29
+ ---
+
+Add the destination directory to project sources or resources
+
+ When you generate something with this plugin, you would probably want it 
+ to be included in project sources or resources.
+ 
+ For example, when you generate Java source files,
+ you would want the destination directory of the generator to become
+ a source folder of the project, so that the sources generated 
+ will be picked up by other build stages, like compile and package.
+
+ You might achieve this using the build-helper-maven-plugin.
+
+ You can, however, achieve the same without even using the build-helper plugin, 
+ just by specifying the following in the xslt-generator-maven-plugin configuration:
+
+---
+  <configuration>
+    ...
+    <addDestDirTo>sources</addDestDirTo>
+  </configuration>
+---
+ 
+ The valid values are:
+ 
+ * <<<sources>>>: makes the destination directory a project source folder. 
+
+ * <<<resources>>>: makes the destination directory a project resource folder. 
+
+ * <<<test-sources>>>: makes the destination directory a project test source folder. 
+
+ * <<<test-resources>>>: makes the destination directory a project test resource folder. 
+
+[]
+
+ When adding to resources or test-resources, all .java files are excluded by default.
+
+

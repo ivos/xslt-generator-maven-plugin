@@ -1,0 +1,48 @@
+ ---
+ Transform a set of .xml files, destination files generated dynamically
+ ---
+ Ivo Maixner
+ ---
+ 2008-10-29
+ ---
+
+Transform a set of .xml files, destination files generated dynamically
+
+ The many-to-dynamic mojo performs XSL transformation of a set of source files 
+ into destination files, which are created dynamically by the XSL template 
+ as follows:
+
+ * For each source file, the template creates its destination file(s) dynamically
+ using the <<<xsl:result-document>>> command.
+
+ * The default output of the template is directed to a dummy file, which is deleted
+ after processing.
+
+---
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.sf.seaf.mojo</groupId>
+        <artifactId>xslt-generator-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>transform-abc</id>
+            <goals>
+              <goal>many-to-dynamic</goal>
+            </goals>
+            <configuration>
+              <xslFile>path/to/template.xsl</xslFile>
+              <srcDir>src/main/xml</srcDir>
+              <srcIncludes>**/*-abc.xml</srcIncludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+---
+

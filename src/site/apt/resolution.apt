@@ -1,0 +1,23 @@
+ ---
+ Files Resolution
+ ---
+ Ivo Maixner
+ ---
+ 2009-04-27
+ ---
+
+Files Resolution
+
+ The XSLT Generator Maven plugin looks up XSL stylesheets and 
+ source files for the transformation as follows, in the specified order:
+
+ * Resolve the path from the source directory of the transformation.
+
+ * Resolve the path from the received base URI.
+ 
+ * Resolve the path as an absolute path.
+
+ * Resolve the path from the project base directory.
+
+ * Resolve the path from the classpath.
+

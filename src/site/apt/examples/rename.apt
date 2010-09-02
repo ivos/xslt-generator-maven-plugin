@@ -1,0 +1,31 @@
+ ---
+ Renaming files during many-to-many transformation
+ ---
+ Ivo Maixner
+ ---
+ 2008-10-29
+ ---
+
+Renaming files during many-to-many transformation
+
+ In the following example, each source file with file name ending with <<<-abc.xml>>>
+ will produce a destination file with file name ending with <<<-abc-out.xml>>>.
+ 
+ The <<<-out>>> part will effectively be inserted into the file name during the transformation.
+
+---
+  <execution>
+    <id>transform-abc</id>
+    <goals>
+      <goal>many-to-many</goal>
+    </goals>
+    <configuration>
+      <xslFile>path/to/template.xsl</xslFile>
+      <srcDir>src/main/xml</srcDir>
+      <srcIncludes>**/*-abc.xml</srcIncludes>
+      <fileNameRegex>-abc\.xml</fileNameRegex>
+      <fileNameReplacement>-abc-out\.xml</fileNameReplacement>
+    </configuration>
+  </execution>
+---
+

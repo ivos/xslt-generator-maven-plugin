@@ -1,0 +1,23 @@
+ ---
+ Using default source file in many-to-one transformation
+ ---
+ Ivo Maixner
+ ---
+ 2008-10-29
+ ---
+
+Using default source file in many-to-one transformation
+
+ The single (main) source file (srcFile) in the many-to-one mojo is not mandatory.
+ If not set, the mojo creates a default source file on the following path:
+
+--- 
+  target/generated-xml/xslt-generator-maven-plugin/empty.xml
+---
+
+ The default source file then has the following content:
+
+---
+  <root/>
+---
+

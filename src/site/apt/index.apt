@@ -1,0 +1,73 @@
+ ---
+ XSLT Generator Maven plugin
+ ---
+ Ivo Maixner
+ ---
+ 2009-01-02
+ ---
+
+XSLT Generator Maven plugin
+
+ The XSLT Generator Maven plugin generates files using an XSL transformation.
+ 
+ It supports the following ways of use:
+ 
+ * Convert a set of source files in a directory structure to a corresponding set
+ of destination files in the same destination directory structure.
+ Each source file produces exactly 1 corresponding destination file by applying the 
+ XSL template to the source file. This is termed "many to many" transformation.
+ 
+ * Convert a set of source files to destination files created dynamically by the XSL template.
+ The XSL template uses the <<<xsl:result-document>>> command to create destination file(s)
+ on-the-fly from each source file fed to it.
+ This is called "many to dynamic" transformation.
+ 
+ * Convert a set of source files to a single destination file.
+ The multiple source files are handed over to the XSL template via a parameter - the template 
+ uses the <<<document()>>> function to load the content of the source files.
+ A distinct (single) source file can also be specified, in which case the transformation
+ effectively "enriches" the single source file with the content taken from the set of (multiple)
+ source files.
+ This is the "many to one" transformation.
+
+* Goals Overview
+
+ The XSLT Generator Maven plugin has the following goals, each corresponding to a way of use:
+ 
+ * {{{./many-to-many-mojo.html}xslt-generator:many-to-many}}
+ 
+ * {{{./many-to-dynamic-mojo.html}xslt-generator:many-to-dynamic}}
+ 
+ * {{{./many-to-one-mojo.html}xslt-generator:many-to-one}}
+
+* Examples
+
+ The following examples provide a good starting point into using the plugin:
+ 
+ * {{{./examples/1-1.html}Transform a set of .xml files, each file 1:1}}
+
+ * {{{./examples/dynamic.html}Transform a set of .xml files, destination files generated dynamically}}
+
+ * {{{./examples/single.html}Transform a set of .xml files into a single destination file}}
+
+ * {{{./examples/default-source.html}Using default source file in many-to-one transformation}}
+
+ * {{{./examples/add-destination.html}Add the destination directory to project sources or resources}}
+
+ * {{{./examples/rename.html}Renaming files during many-to-many transformation}}
+
+ * {{{./examples/saxon.html}Using Saxon as the XSLT processor}}
+ 
+* Stylesheet and source files resolution
+
+ The XSLT Generator Maven plugin resolves XSL stylesheets and source files as
+ specified {{{./resolution.html}here}}.
+
+ \
+ \ 
+
+===
+
+ This project is part of {{{http://seaf.sf.net}SEAF}}, which is hosted by Sourceforge.net.
+
+ {{{http://sf.net/projects/seaf/}SEAF at Sourceforge.net}}
