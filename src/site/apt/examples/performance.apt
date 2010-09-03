@@ -26,12 +26,7 @@ Performance optimization
  * Configure the finalize goal to run AFTER any other execution of the generator, 
  It binds by default to Maven phase process-resources, which is fine provided
  you only use the generator in the main scope. If you use it in the test scope, you
- should bind it to the relevant last phase (eg. process-test-resources).
-
-
-
- To take advantage of XSTL 2.0 and XPath 2.0, use Saxon as the XSLT processor.
- Simply add it as a dependency of the plugin as follows.
+ should bind it to the relevant last phase it is used in (eg. process-test-resources).
 
 ---
 <plugin>
