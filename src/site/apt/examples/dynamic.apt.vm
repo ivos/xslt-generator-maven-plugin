@@ -17,8 +17,10 @@ Transform a set of .xml files, destination files generated dynamically
 
  * The default output of the template is directed to a dummy file, which is deleted
  after processing.
+ 
+ []
 
----
++--
 <project>
   ...
   <build>
@@ -44,5 +46,4 @@ Transform a set of .xml files, destination files generated dynamically
     </plugins>
   </build>
 </project>
----
-
++--

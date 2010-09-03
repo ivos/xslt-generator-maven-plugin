@@ -1,34 +1,40 @@
  ---
- Using Saxon as the XSLT processor
+ Skipping up-to-date source files
  ---
  Ivo Maixner
  ---
- 2008-10-29
+ 2010-09-03
  ---
 
-Performance optimization
+Skipping up-to-date source files
 
  When generating output files using <<<xsl:result-document>>> command 
- (typically in the many-to-one goal), the XSLT generator Maven plugin has no way 
+ (typically in the many-to-dynamic goal), the XSLT generator Maven plugin has no way 
  how to determine if the output files are up-to-date or need re-generating.
 
  This implies that when using XSLT 2.0 (which introduces the <<<xsl:result-document>>> 
  command), all generator invocations should always be run to prevent not generating 
- output files which might need to be re-generated. This might present a significant
+ output files which need to be re-generated. This might present a significant
  performance penalty in an IDE, where multiple time-consuming executions of the 
  generator may result from every saving of a resource file.
  
- To overcome this the initialize and finalize goals have been introduced.
+ To overcome this, the initialize and finalize goals have been introduced.
  
- * Configure the initialize goal to run BEFORE any other execution of the generator, 
+ * Configure the initialize goal to run BEFORE any other execution of the generator. 
  It binds by default to Maven phase initialize, which is usually fine.
  
- * Configure the finalize goal to run AFTER any other execution of the generator, 
+ * Configure the finalize goal to run AFTER any other execution of the generator. 
  It binds by default to Maven phase process-resources, which is fine provided
  you only use the generator in the main scope. If you use it in the test scope, you
  should bind it to the relevant last phase it is used in (eg. process-test-resources).
 
----
+ []
+ 
+ Having the timestamp of the previous build, the plugin can then skip source files
+ with last-updated timestamp older than that, thus eliminating unnecessary invocations
+ (or even instantiations) of the XSLT engine.
+ 
++--
 <plugin>
   <groupId>net.sf.seaf.mojo</groupId>
   <artifactId>xslt-generator-maven-plugin</artifactId>
@@ -52,4 +58,4 @@ Performance optimization
 	  </execution>
   </executions>
 </plugin>
----
++--

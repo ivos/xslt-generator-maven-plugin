@@ -16,11 +16,11 @@ Transform a set of .xml files into a single destination file
  template, define a global template parameter and then load the content of the files
  as follows:
 
----
++--
 <xsl:param name="source-file-names" />
 <xsl:variable name="names-sequence" select="tokenize($source-file-names,',')" />
 <xsl:variable name="cfg-files" select="document($names-sequence)" />
----
++--
 
  From the XSL engine point of view, it is then in fact a 1:1 transformation 
  of a single file: a single source file is transformed into a single destination file.
@@ -28,7 +28,7 @@ Transform a set of .xml files into a single destination file
  The content of the single source file can then be enriched in the template by
  the multiple source files.
 
----
++--
 <project>
   ...
   <build>
@@ -56,5 +56,4 @@ Transform a set of .xml files into a single destination file
     </plugins>
   </build>
 </project>
----
-
++--

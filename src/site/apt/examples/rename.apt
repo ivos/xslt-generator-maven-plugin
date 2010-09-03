@@ -13,7 +13,7 @@ Renaming files during many-to-many transformation
  
  The <<<-out>>> part will effectively be inserted into the file name during the transformation.
 
----
++--
   <execution>
     <id>transform-abc</id>
     <goals>
@@ -27,5 +27,4 @@ Renaming files during many-to-many transformation
       <fileNameReplacement>-abc-out\.xml</fileNameReplacement>
     </configuration>
   </execution>
----
-
++--

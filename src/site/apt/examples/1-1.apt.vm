@@ -16,8 +16,10 @@ Transform a set of .xml files, each file 1:1
  the source directory tree.
 
  * Files with up-to-date timestamp are skipped.
+ 
+ []
 
----
++--
 <project>
   ...
   <build>
@@ -43,5 +45,4 @@ Transform a set of .xml files, each file 1:1
     </plugins>
   </build>
 </project>
----
-
++--

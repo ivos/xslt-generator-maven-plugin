@@ -21,12 +21,12 @@ Add the destination directory to project sources or resources
  You can, however, achieve the same without even using the build-helper plugin, 
  just by specifying the following in the xslt-generator-maven-plugin configuration:
 
----
++--
   <configuration>
     ...
     <addDestDirTo>sources</addDestDirTo>
   </configuration>
----
++--
  
  The valid values are:
  

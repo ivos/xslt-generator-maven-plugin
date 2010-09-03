@@ -43,7 +43,7 @@ XSLT Generator Maven plugin
  []
  
  To enable skipping generation of up-to-date files (leading to performance optimization), configure
- also the following goals:
+ also the following goals (see "Optimize performance" example below):
  
  * {{{./initialize-mojo.html}xslt-generator:initialize}}
  
@@ -71,14 +71,15 @@ XSLT Generator Maven plugin
  
 * Stylesheet and source files resolution
 
- The XSLT Generator Maven plugin resolves XSL stylesheets and source files as
- specified {{{./resolution.html}here}}.
+ The XSLT Generator Maven plugin resolves XSL stylesheets and source files also from Maven dependencies
+ of the project. The details of files resolution are specified {{{./resolution.html}here}}.
 
  \
  \ 
 
 ===
 
- This project is part of {{{http://seaf.sf.net}SEAF}}, which is hosted by Sourceforge.net.
+ XSLT Generator Maven plugin is hosted by Sourceforge.net, see 
+ {{{http://sourceforge.net/projects/xsltmp/}XSLT Generator Maven plugin at Sourceforge.net}}.
 
- {{{http://sf.net/projects/seaf/}SEAF at Sourceforge.net}}
+ XSLT Generator Maven plugin is part of {{{http://seaf.sf.net}SEAF}}.

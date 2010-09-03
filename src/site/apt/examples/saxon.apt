@@ -11,7 +11,7 @@ Using Saxon as the XSLT processor
  To take advantage of XSTL 2.0 and XPath 2.0, use Saxon as the XSLT processor.
  Simply add it as a dependency of the plugin as follows.
 
----
++--
 <plugin>
   <groupId>net.sf.seaf.mojo</groupId>
   <artifactId>xslt-generator-maven-plugin</artifactId>
@@ -27,4 +27,4 @@ Using Saxon as the XSLT processor
     </dependency>
   </dependencies>
 </plugin>
----
++--
