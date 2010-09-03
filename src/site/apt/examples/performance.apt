@@ -1,0 +1,60 @@
+ ---
+ Using Saxon as the XSLT processor
+ ---
+ Ivo Maixner
+ ---
+ 2008-10-29
+ ---
+
+Performance optimization
+
+ When generating output files using <<<xsl:result-document>>> command 
+ (typically in the many-to-one goal), the XSLT generator Maven plugin has no way 
+ how to determine if the output files are up-to-date or need re-generating.
+
+ This implies that when using XSLT 2.0 (which introduces the <<<xsl:result-document>>> 
+ command), all generator invocations should always be run to prevent not generating 
+ output files which might need to be re-generated. This might present a significant
+ performance penalty in an IDE, where multiple time-consuming executions of the 
+ generator may result from every saving of a resource file.
+ 
+ To overcome this the initialize and finalize goals have been introduced.
+ 
+ * Configure the initialize goal to run BEFORE any other execution of the generator, 
+ It binds by default to Maven phase initialize, which is usually fine.
+ 
+ * Configure the finalize goal to run AFTER any other execution of the generator, 
+ It binds by default to Maven phase process-resources, which is fine provided
+ you only use the generator in the main scope. If you use it in the test scope, you
+ should bind it to the relevant last phase (eg. process-test-resources).
+
+
+
+ To take advantage of XSTL 2.0 and XPath 2.0, use Saxon as the XSLT processor.
+ Simply add it as a dependency of the plugin as follows.
+
+---
+<plugin>
+  <groupId>net.sf.seaf.mojo</groupId>
+  <artifactId>xslt-generator-maven-plugin</artifactId>
+  ...
+  <executions>
+	  <execution>
+	  	...
+	  </execution>
+	  ... all other executions ...
+	  <execution>
+	    <id>initialize</id>
+	    <goals>
+	      <goal>initialize</goal>
+	    </goals>
+	  </execution>
+	  <execution>
+	    <id>finalize</id>
+	    <goals>
+	      <goal>finalize</goal>
+	    </goals>
+	  </execution>
+  </executions>
+</plugin>
+---
