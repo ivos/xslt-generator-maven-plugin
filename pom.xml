@@ -1,16 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<!-- 
-		Atifact -->
-	<groupId>net.sf.seaf.mojo</groupId>
+	<!-- Atifact -->
+	<groupId>net.sf.xsltmp</groupId>
 	<artifactId>xslt-generator-maven-plugin</artifactId>
 	<version>1.4-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
-	<!-- 
-		Description -->
+	<!-- Description -->
 	<name>XSLT Generator Maven plugin</name>
 	<description>Performs XSL transformation.</description>
-	<url>http://seaf.sf.net/xslt-generator-maven-plugin/</url>
+	<url>http://xsltmp.sf.net/</url>
 	<inceptionYear>2008</inceptionYear>
 	<organization>
 		<name>SEAF</name>
@@ -20,7 +19,7 @@
 		<developer>
 			<id>imaixner</id>
 			<name>Ivo Maixner</name>
-			<email>imaixner@seznam.cz</email>
+			<email>ivo.maixner@gmail.com</email>
 		</developer>
 	</developers>
 	<licenses>
@@ -31,16 +30,14 @@
 			<comments>A business-friendly Open Source license</comments>
 		</license>
 	</licenses>
-	<!-- 
-		Properties -->
+	<!-- Properties -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.java.target>1.4</project.build.java.target>
 		<currentVersion>${project.version}</currentVersion>
 	</properties>
-	<!-- 
-		SCM & Distribution -->
+	<!-- SCM & Distribution -->
 	<scm>
 		<connection>scm:svn:https://seaf.svn.sourceforge.net/svnroot/seaf/trunk/xslt-generator-maven-plugin/</connection>
 		<developerConnection>scm:svn:https://seaf.svn.sourceforge.net/svnroot/seaf/trunk/xslt-generator-maven-plugin/</developerConnection>
@@ -59,16 +56,15 @@
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 		<site>
-			<id>seaf.sf.net</id>
-			<url>scpexe://shell.sourceforge.net/home/groups/s/se/seaf/htdocs/xslt-generator-maven-plugin</url>
+			<id>xsltmp.sf.net</id>
+			<url>scpexe://shell.sourceforge.net/home/groups/x/xs/xsltmp/htdocs/xslt-generator-maven-plugin</url>
 		</site>
 	</distributionManagement>
 	<issueManagement>
 		<system>Sourceforge</system>
-		<url>http://sf.net/tracker/?group_id=112334</url>
+		<url>http://sf.net/tracker/?group_id=348718</url>
 	</issueManagement>
-	<!-- 
-		Build -->
+	<!-- Build -->
 	<build>
 		<extensions>
 			<!-- Wagon for deployment -->
@@ -85,9 +81,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
 						<encoding>${project.build.sourceEncoding}</encoding>
-						<!-- Bug in M2Eclipse requires explicit Java version: -->
-						<source>1.4</source>
-						<target>1.4</target>
+						<source>${project.build.java.target}</source>
+						<target>${project.build.java.target}</target>
 					</configuration>
 				</plugin>
 				<plugin>
