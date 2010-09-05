@@ -55,6 +55,14 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	 */
 	private Map parameters;
 
+	/**
+	 * Force generation. When set, the timestamp of the last build is ignored
+	 * and the XSLT generation is always performed.
+	 * 
+	 * @parameter expression="${xsltmp.force}" default-value="false"
+	 */
+	private boolean force;
+
 	private Transformer transformer = null;
 	private File xslFile = null;
 	protected DefaultURIResolver resolver = null;
@@ -91,6 +99,14 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 		if (null == parameters)
 			parameters = new HashMap();
 		return parameters;
+	}
+
+	public boolean getForce() {
+		return force;
+	}
+
+	public void setForce(boolean force) {
+		this.force = force;
 	}
 
 	public void setParameters(Map parameters) {
@@ -188,6 +204,8 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	}
 
 	protected boolean isUpToDate(File srcFile) {
+		if (getForce())
+			return false;
 		return getTimestamp().lastModified() > srcFile.lastModified();
 	}
 

@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="1.4" date="">
+			<action type="add" date="2010-09-05" dev="imaixner">
+				Added force option on all goals to skip timestamp logic.
+			</action>
 			<action type="update" date="2010-09-05" dev="imaixner">
 				Re-packaged java classes to the new SourceForge project url.
 			</action>

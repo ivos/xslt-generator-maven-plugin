@@ -59,3 +59,27 @@ Skipping up-to-date source files
   </executions>
 </plugin>
 +--
+ 
+ <<Note!>> When the generator is run in the build after the finalize goal, 
+ it will never perform the generation. If you eg. configure the finalize goal in 
+ process-resources phase in the default Maven lifecycle 
+ (to stop repeating re-generations in IDE) and also have the generator configured in
+ some other lifecycle (typically site), then running <<<mvn install site>>> will
+ effectively never generate anything in the site phase, because the generator
+ has always been already finalized in the process-resources phase of the default
+ lifecycle triggered by the <<<install>>> keyword by the time the build proceeds to 
+ the site phase. To resolve this, force the generation in the site phase:
+
++--
+<execution>
+	<id>do-stuff-in-site</id>
+	<phase>site</phase>
+	<goals>
+		...
+	</goals>
+	<configuration>
+		<force>true</force>
+		...
+	</configuration>
+</execution>
++--
