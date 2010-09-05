@@ -36,7 +36,7 @@ Skipping up-to-date source files
  
 +--
 <plugin>
-  <groupId>net.sf.seaf.mojo</groupId>
+  <groupId>net.sf.xsltmp</groupId>
   <artifactId>xslt-generator-maven-plugin</artifactId>
   ...
   <executions>

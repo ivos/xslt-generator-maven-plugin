@@ -13,7 +13,7 @@ Using Saxon as the XSLT processor
 
 +--
 <plugin>
-  <groupId>net.sf.seaf.mojo</groupId>
+  <groupId>net.sf.xsltmp</groupId>
   <artifactId>xslt-generator-maven-plugin</artifactId>
   ...
   <executions>

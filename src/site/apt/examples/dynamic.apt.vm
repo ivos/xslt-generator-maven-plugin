@@ -26,7 +26,7 @@ Transform a set of .xml files, destination files generated dynamically
   <build>
     <plugins>
       <plugin>
-        <groupId>net.sf.seaf.mojo</groupId>
+        <groupId>net.sf.xsltmp</groupId>
         <artifactId>xslt-generator-maven-plugin</artifactId>
         <version>${currentVersion}</version>
         <executions>
