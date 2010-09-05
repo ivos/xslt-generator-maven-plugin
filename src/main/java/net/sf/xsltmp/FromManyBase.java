@@ -1,9 +1,9 @@
-package net.sf.seaf.mojo.xsltgenerator;
+package net.sf.xsltmp;
 
 import java.io.File;
 import java.util.Arrays;
 
-import net.sf.seaf.mojo.util.DefaultURIResolver;
+import net.sf.xsltmp.util.DefaultURIResolver;
 
 import org.apache.maven.plugin.MojoFailureException;
 import org.codehaus.plexus.util.DirectoryScanner;

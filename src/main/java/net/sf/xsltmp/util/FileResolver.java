@@ -1,4 +1,4 @@
-package net.sf.seaf.mojo.util;
+package net.sf.xsltmp.util;
 
 import java.io.File;
 import java.util.Iterator;

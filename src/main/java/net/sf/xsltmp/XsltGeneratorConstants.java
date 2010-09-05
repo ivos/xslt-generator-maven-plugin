@@ -1,4 +1,4 @@
-package net.sf.seaf.mojo.xsltgenerator;
+package net.sf.xsltmp;
 
 public interface XsltGeneratorConstants {
 

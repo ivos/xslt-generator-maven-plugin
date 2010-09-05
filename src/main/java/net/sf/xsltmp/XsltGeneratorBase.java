@@ -1,4 +1,4 @@
-package net.sf.seaf.mojo.xsltgenerator;
+package net.sf.xsltmp;
 
 import java.io.File;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sf.seaf.mojo.util.DefaultURIResolver;
-import net.sf.seaf.mojo.util.UnArchiverHelper;
+import net.sf.xsltmp.util.DefaultURIResolver;
+import net.sf.xsltmp.util.UnArchiverHelper;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.project.MavenProject;

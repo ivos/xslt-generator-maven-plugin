@@ -1,4 +1,4 @@
-package net.sf.seaf.mojo.xsltgenerator;
+package net.sf.xsltmp;
 
 import java.io.File;
 import java.util.ArrayList;
