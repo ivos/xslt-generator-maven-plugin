@@ -41,8 +41,6 @@ public abstract class FromManyBase extends XsltGeneratorBase {
 	 */
 	private String srcExcludes;
 
-	private File timestamp = null;
-
 	// Standard getters and setters for the properties
 
 	public File getSrcDir() {
@@ -67,15 +65,6 @@ public abstract class FromManyBase extends XsltGeneratorBase {
 
 	public void setSrcExcludes(String srcExcludes) {
 		this.srcExcludes = srcExcludes;
-	}
-
-	public File getTimestamp() {
-		if (null == timestamp) {
-			File timestampDir = new File(
-					getProject().getBuild().getDirectory(), BASE_DIR);
-			timestamp = new File(timestampDir, TIMESTAMP_FILENAME);
-		}
-		return timestamp;
 	}
 
 	// Shared helper methods
@@ -122,10 +111,6 @@ public abstract class FromManyBase extends XsltGeneratorBase {
 								+ parentDestFile.getAbsolutePath());
 			}
 		}
-	}
-
-	protected boolean isUpToDate(File srcFile) {
-		return getTimestamp().lastModified() > srcFile.lastModified();
 	}
 
 	protected void logExecution(File srcFile) {

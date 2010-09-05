@@ -59,6 +59,7 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	private File xslFile = null;
 	protected DefaultURIResolver resolver = null;
 	private UnArchiverHelper helper = null;
+	private File timestamp = null;
 
 	// Standard getters and setters for the properties
 
@@ -127,6 +128,15 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 		return xslFile;
 	}
 
+	public File getTimestamp() {
+		if (null == timestamp) {
+			File timestampDir = new File(
+					getProject().getBuild().getDirectory(), BASE_DIR);
+			timestamp = new File(timestampDir, TIMESTAMP_FILENAME);
+		}
+		return timestamp;
+	}
+
 	// Helper methods for descendants
 
 	/**
@@ -175,6 +185,10 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 
 	protected String getLogPrefix() {
 		return getMojoName() + ": " + getXslTemplate();
+	}
+
+	protected boolean isUpToDate(File srcFile) {
+		return getTimestamp().lastModified() > srcFile.lastModified();
 	}
 
 	// Abstract methods to be implemented by concrete descendants
