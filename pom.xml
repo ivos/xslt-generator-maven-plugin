@@ -39,9 +39,9 @@
 	</properties>
 	<!-- SCM & Distribution -->
 	<scm>
-		<connection>scm:git:git://xsltmp.git.sourceforge.net/gitroot/xsltmp/xslt-generator-maven-plugin/</connection>
-		<developerConnection>scm:git:ssh://imaixner@xsltmp.git.sourceforge.net/gitroot/xsltmp/xslt-generator-maven-plugin/</developerConnection>
-		<url>http://xsltmp.git.sourceforge.net/git/gitweb-index.cgi</url>
+		<connection>scm:git:git://xsltmp.git.sourceforge.net/gitroot/xsltmp/xslt-generator-maven-plugin.git/</connection>
+		<developerConnection>scm:git:ssh://imaixner@xsltmp.git.sourceforge.net/gitroot/xsltmp/xslt-generator-maven-plugin.git/</developerConnection>
+		<url>http://xsltmp.git.sourceforge.net/git/gitweb.cgi?p=xsltmp/xslt-generator-maven-plugin.git</url>
 	</scm>
 	<distributionManagement>
 		<repository>
