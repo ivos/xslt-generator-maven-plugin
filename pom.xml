@@ -19,7 +19,8 @@
 		<developer>
 			<id>imaixner</id>
 			<name>Ivo Maixner</name>
-			<email>ivo.maixner@gmail.com</email>
+			<email>ivo (.) maixner (at) gmail (.) com</email>
+			<timezone>+1</timezone>
 		</developer>
 	</developers>
 	<licenses>
@@ -44,17 +45,17 @@
 		<url>http://xsltmp.git.sourceforge.net/git/gitweb.cgi?p=xsltmp/xslt-generator-maven-plugin.git</url>
 	</scm>
 	<distributionManagement>
-		<repository>
-			<id>seaf.sf.net</id>
-			<name>SEAF release repository</name>
-			<url>scpexe://shell.sourceforge.net/home/groups/s/se/seaf/htdocs/m2repo/releases</url>
-		</repository>
 		<snapshotRepository>
-			<id>seaf.sf.net</id>
-			<name>SEAF snapshot repository</name>
-			<url>scpexe://shell.sourceforge.net/home/groups/s/se/seaf/htdocs/m2repo/snapshots</url>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Nexus Release Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 		<site>
 			<id>xsltmp.sf.net</id>
 			<url>scpexe://shell.sourceforge.net/home/groups/x/xs/xsltmp/htdocs</url>
@@ -66,6 +67,7 @@
 	</issueManagement>
 	<!-- Build -->
 	<build>
+		<defaultGoal>install</defaultGoal>
 		<extensions>
 			<!-- Wagon for deployment -->
 			<extension>
