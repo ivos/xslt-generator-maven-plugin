@@ -77,11 +77,13 @@ public abstract class ManyToManyBase extends FromManyBase {
 				return;
 			ensureDestDirExists();
 
+			boolean xslFileChanged = hasChanged(getXslFile());
 			String[] sourceFileNames = getSourceFiles();
 			for (int i = 0; i < sourceFileNames.length; i++) {
 				File srcFile = getSourceFile(sourceFileNames[i]);
 				File destFile = getDestFile(sourceFileNames[i]);
-				if (isUpToDate(srcFile) || shouldSkip(srcFile, destFile)) {
+				if (!xslFileChanged
+						&& (shouldSkip(srcFile, destFile) || !hasChanged(srcFile))) {
 					getLog().debug("File skipped: " + srcFile);
 					continue;
 				}

@@ -67,6 +67,7 @@ public class ManyToManyMojo extends ManyToManyBase {
 	}
 
 	protected boolean shouldSkip(File srcFile, File destFile) {
+		// if dest file exists and is newer than src file, then skip
 		return destFile.exists()
 				&& srcFile.lastModified() < destFile.lastModified();
 	}

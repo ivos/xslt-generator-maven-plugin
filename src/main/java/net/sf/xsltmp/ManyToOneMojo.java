@@ -91,7 +91,7 @@ public class ManyToOneMojo extends FromManyBase {
 			File amendedSrcFile;
 			if (doesSrcFileExists()) {
 				amendedSrcFile = getSrcFile();
-				shouldRun |= !isUpToDate(amendedSrcFile);
+				shouldRun |= hasChanged(amendedSrcFile);
 			} else {
 				getLog().info("Source file does not exist, using default.");
 				amendedSrcFile = getDefaultFile();
@@ -136,12 +136,13 @@ public class ManyToOneMojo extends FromManyBase {
 	private void storeSourceFileNamesInParam() throws MojoFailureException,
 			MojoExecutionException {
 		try {
+			boolean xslFileChanged = hasChanged(getXslFile());
 			String srcDirPath = getSrcDir().getCanonicalPath();
 			StringBuilder b = new StringBuilder();
 			String[] sourceFileNames = getSourceFiles();
 			for (int i = 0; i < sourceFileNames.length; i++) {
 				File srcFile = getSourceFile(sourceFileNames[i]);
-				if (isUpToDate(srcFile)) {
+				if (!xslFileChanged && !hasChanged(srcFile)) {
 					getLog().debug("File skipped: " + srcFile);
 					continue;
 				}

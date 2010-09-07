@@ -144,6 +144,11 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 		return xslFile;
 	}
 
+	/**
+	 * The timestamp of last run of Maven build.
+	 * 
+	 * @return
+	 */
 	public File getTimestamp() {
 		if (null == timestamp) {
 			File timestampDir = new File(
@@ -203,10 +208,18 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 		return getMojoName() + ": " + getXslTemplate();
 	}
 
-	protected boolean isUpToDate(File srcFile) {
+	/**
+	 * Has the file changed from the last run of Maven build or is re-generation
+	 * forced?
+	 * 
+	 * @param file
+	 * @return true iff the file has changed from last Maven build or
+	 *         re-generation is forced
+	 */
+	protected boolean hasChanged(File file) {
 		if (getForce())
-			return false;
-		return getTimestamp().lastModified() > srcFile.lastModified();
+			return true;
+		return file.lastModified() > getTimestamp().lastModified();
 	}
 
 	// Abstract methods to be implemented by concrete descendants
