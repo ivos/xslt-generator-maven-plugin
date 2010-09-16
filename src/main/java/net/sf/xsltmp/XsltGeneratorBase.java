@@ -155,7 +155,7 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 
 	public DefaultURIResolver getResolver() {
 		if (null == resolver) {
-			getLog().debug("Setting up DefaultURIResolver");
+			getLog().debug("Setting up DefaultURIResolver.");
 			resolver = new DefaultURIResolver(getLog(), getProject(),
 					getHelper(), filter, filterParameters);
 		}
@@ -200,13 +200,14 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	 * @throws MojoFailureException
 	 */
 	private void createTransformer() throws MojoFailureException {
-		getLog().debug("Creating transformer...");
+		getLog().debug("Creating transformer.");
 		TransformerFactory factory = TransformerFactory.newInstance();
 		factory.setURIResolver(getResolver());
 		try {
 			transformer = factory.newTransformer(getResolver().resolveAsSource(
 					getXslTemplate()));
 		} catch (TransformerConfigurationException tce) {
+			tce.printStackTrace();
 			throw new MojoFailureException("Cannot process template file: "
 					+ getXslTemplate(), tce);
 		}
@@ -220,18 +221,19 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	 * @throws MojoFailureException
 	 */
 	private void applyParameters() throws MojoFailureException {
-		getLog().debug("Applying parameters...");
+		getLog().debug("Applying parameters.");
 		if (getParameters() != null) {
 			Set keys = getParameters().keySet();
 			for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
 				String key = (String) iterator.next();
-				getLog().debug(
-						"Setting parameter: key=" + key + " value="
-								+ getParameters().get(key));
+				if (getLog().isDebugEnabled())
+					getLog().debug(
+							"Setting parameter: key=" + key + " value="
+									+ getParameters().get(key));
 				getTransformer().setParameter(key, getParameters().get(key));
 			}
 			if (getParameters().isEmpty())
-				getLog().debug("No parameters");
+				getLog().debug("No parameters to set.");
 		}
 	}
 

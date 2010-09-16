@@ -62,15 +62,10 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 		this.filterParameters = filterParameters;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.xml.transform.URIResolver#resolve(java.lang.String,
-	 * java.lang.String)
-	 */
 	public Source resolve(String href, String base)
 			throws TransformerConfigurationException {
-		getLog().debug("Resolving: " + href + " at base: " + base);
+		if (getLog().isDebugEnabled())
+			getLog().debug("Resolving: " + href + " at base: " + base);
 		// first try to resolve href from received base
 		File result = null;
 		try {
@@ -97,6 +92,7 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 			source.setSystemId(file);
 			return source;
 		} catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
 			throw new TransformerConfigurationException("File not found: "
 					+ file, fnfe);
 		}
@@ -109,14 +105,16 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 		if (null != filterType) {
 			try {
 				if (null == filter) {
-					getLog().debug("Initializing filter: " + filterType);
+					if (getLog().isDebugEnabled())
+						getLog().debug("Initializing filter: " + filterType);
 					filter = (Filter) Class.forName(filterType).newInstance();
 					filter.setMavenProject(getProject());
 					filter.setFileResolver(this);
 					filter.setFilterParameters(filterParameters);
 					filter.init();
 				}
-				getLog().debug("Applying filter: " + filterType);
+				if (getLog().isDebugEnabled())
+					getLog().debug("Applying filter: " + filterType);
 				return filter.filter(reader, name);
 			} catch (Exception e) {
 				e.printStackTrace();

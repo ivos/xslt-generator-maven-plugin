@@ -105,6 +105,7 @@ public class ManyToOneMojo extends FromManyBase {
 		} catch (MojoFailureException mfe) {
 			throw mfe;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new MojoExecutionException(e.getMessage(), e);
 		}
 	}
@@ -142,7 +143,8 @@ public class ManyToOneMojo extends FromManyBase {
 			for (int i = 0; i < sourceFileNames.length; i++) {
 				File srcFile = getSourceFile(sourceFileNames[i]);
 				if (!xslFileChanged && !hasChanged(srcFile)) {
-					getLog().debug("File skipped: " + srcFile);
+					if (getLog().isDebugEnabled())
+						getLog().debug("File skipped: " + srcFile);
 					continue;
 				}
 				shouldRun = true;
@@ -161,6 +163,7 @@ public class ManyToOneMojo extends FromManyBase {
 			getParameters().put("source-file-names", names);
 			getLog().info("Stored source-file-names param: " + names);
 		} catch (IOException e) {
+			e.printStackTrace();
 			throw new MojoFailureException("Cannot read canonical file path", e);
 		}
 	}

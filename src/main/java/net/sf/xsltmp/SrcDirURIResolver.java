@@ -50,16 +50,10 @@ public class SrcDirURIResolver extends DefaultURIResolver {
 		return srcDir;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sf.seaf.mojo.util.BasedirAndClasspathURIResolver#resolve(java.lang
-	 * .String, java.lang.String)
-	 */
 	public Source resolve(String href, String base)
 			throws TransformerConfigurationException {
-		getLog().debug("Resolving: " + href + " at srcDir: " + getSrcDir());
+		if (getLog().isDebugEnabled())
+			getLog().debug("Resolving: " + href + " at srcDir: " + getSrcDir());
 		File result = new File(getSrcDir(), href);
 		if (exists(result))
 			return createSource(result);

@@ -74,9 +74,10 @@ public class FileResolver {
 	 * @return File The File corresponding to the path
 	 */
 	public File resolve(String filePath) {
-		getLog().debug(
-				"Resolving: " + filePath + " as absolute, "
-						+ "basedir or classpath");
+		if (getLog().isDebugEnabled())
+			getLog().debug(
+					"Resolving: " + filePath + " as absolute, "
+							+ "basedir or classpath.");
 		// first try to resolve as absolute path
 		File result = new File(filePath);
 		if (exists(result))
@@ -103,9 +104,9 @@ public class FileResolver {
 		} catch (DependencyResolutionRequiredException e) {
 			getLog().warn(
 					"Dependencies must be resolved first, could not locate "
-							+ filePath + " from classpath");
+							+ filePath + " from classpath.");
 		}
-		getLog().debug("- Not resolved");
+		getLog().debug("- Not resolved.");
 		return result;
 	}
 
@@ -119,10 +120,11 @@ public class FileResolver {
 	protected boolean exists(File file) {
 		if (null == file)
 			return false;
-		getLog().debug("- Trying: " + file.getAbsolutePath());
+		if (getLog().isDebugEnabled())
+			getLog().debug("- Trying: " + file.getAbsolutePath());
 		boolean result = file.exists();
 		if (result)
-			getLog().debug("- Resolved");
+			getLog().debug("- Resolved.");
 		return result;
 	}
 

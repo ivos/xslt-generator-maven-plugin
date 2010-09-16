@@ -148,9 +148,11 @@ public class TranslatingFilter implements Filter {
 					new FileInputStream(propsFile), bundleEncoding));
 			copyNonExistingEntries(properties);
 			loaded = true;
-			log.debug("Loaded properties " + propsFile);
+			if (log.isDebugEnabled())
+				log.debug("Loaded properties: " + propsFile);
 		} catch (IOException e) {
-			log.debug("Cannot load properties " + propsFile);
+			if (log.isDebugEnabled())
+				log.debug("Cannot load properties: " + propsFile);
 		}
 	}
 
@@ -166,7 +168,8 @@ public class TranslatingFilter implements Filter {
 	private String line;
 
 	public Reader filter(Reader reader, String name) throws IOException {
-		log.debug("Filtering file " + name);
+		if (log.isDebugEnabled())
+			log.debug("Filtering file: " + name);
 		StringBuilder sb = new StringBuilder();
 		LineTokenizer lineTokenizer = new LineTokenizer();
 		lineTokenizer.setIncludeDelims(true);
@@ -196,7 +199,7 @@ public class TranslatingFilter implements Filter {
 			} else {
 				String token = getToken();
 				if (log.isDebugEnabled())
-					log.debug("Translating token " + token);
+					log.debug("Translating token: " + token);
 				if (!isTokenValid(token)) {
 					skip();
 				} else {

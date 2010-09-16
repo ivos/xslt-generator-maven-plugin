@@ -68,8 +68,6 @@ public abstract class ManyToManyBase extends FromManyBase {
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		boolean didRun = false;
 		try {
-			// getLog().info(getMojoName() + " running " +
-			// getProject().getId());
 			if (!verifyXsltFileExist())
 				return;
 			if (!verifySrcDirExist())
@@ -83,7 +81,8 @@ public abstract class ManyToManyBase extends FromManyBase {
 				File destFile = getDestFile(sourceFileNames[i]);
 				if (!xslFileChanged
 						&& (shouldSkip(srcFile, destFile) || !hasChanged(srcFile))) {
-					getLog().debug("File skipped: " + srcFile);
+					if (getLog().isDebugEnabled())
+						getLog().debug("File skipped: " + srcFile);
 					continue;
 				}
 				didRun = true;
@@ -99,6 +98,7 @@ public abstract class ManyToManyBase extends FromManyBase {
 		} catch (MojoFailureException mfe) {
 			throw mfe;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new MojoExecutionException(e.getMessage(), e);
 		}
 	}
@@ -139,9 +139,9 @@ public abstract class ManyToManyBase extends FromManyBase {
 		if (!getDestDir().exists()) {
 			boolean dirCreationResult = getDestDir().mkdirs();
 			if (!dirCreationResult) {
-				String message = "Destination directory structure could not be initialised. "
-						+ "Failed to create directory: " + getDestDir();
-				throw new MojoFailureException(message);
+				throw new MojoFailureException(
+						"Destination directory structure could not be initialised. "
+								+ "Failed to create directory: " + getDestDir());
 			}
 		}
 	}

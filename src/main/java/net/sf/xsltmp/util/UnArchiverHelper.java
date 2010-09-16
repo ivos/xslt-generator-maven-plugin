@@ -109,7 +109,8 @@ public class UnArchiverHelper {
 	 * @return File The file from the archive
 	 */
 	public File getFile(File archive, String filePath) {
-		getLog().debug("Getting " + filePath + " from archive " + archive);
+		if (getLog().isDebugEnabled())
+			getLog().debug("Getting: " + filePath + " from archive: " + archive);
 		File extractDir = getExtractDir(archive);
 		// was already extracted?
 		File result = new File(extractDir, filePath);
@@ -129,9 +130,10 @@ public class UnArchiverHelper {
 				// ==> store the valid path for future use
 				String subdir = new File(filePath).getParent();
 				getLastArchiveValidSubdir().put(archive.getName(), subdir);
-				getLog().debug(
-						"Storing last valid subdir for archive "
-								+ archive.getName() + " as " + subdir);
+				if (getLog().isDebugEnabled())
+					getLog().debug(
+							"Storing last valid subdir for archive: "
+									+ archive.getName() + " as: " + subdir);
 			}
 		}
 		return result;
@@ -147,9 +149,10 @@ public class UnArchiverHelper {
 	 */
 	public void extract(File archive, String filePath) {
 		File extractDir = getExtractDir(archive);
-		getLog().debug(
-				"Extracting " + filePath + " from " + archive + " to "
-						+ extractDir);
+		if (getLog().isDebugEnabled())
+			getLog().debug(
+					"Extracting: " + filePath + " from: " + archive + " to: "
+							+ extractDir);
 		extractDir.mkdirs();
 		try {
 			UnArchiver unArchiver;
@@ -161,7 +164,7 @@ public class UnArchiverHelper {
 			unArchiver.setFileSelectors(selectors);
 			unArchiver.extract();
 		} catch (NoSuchArchiverException e) {
-			getLog().warn("Unknown archiver type");
+			getLog().warn("Unknown archiver type.");
 		} catch (ArchiverException e) {
 			getLog().warn(
 					"Error unpacking file: " + archive + "\t" + e.toString());

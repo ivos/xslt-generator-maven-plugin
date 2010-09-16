@@ -120,7 +120,7 @@ public abstract class FromManyBase extends XsltGeneratorBase {
 	// Set up URIResolver from srcDir.
 	public DefaultURIResolver getResolver() {
 		if (null == resolver) {
-			getLog().debug("Setting up SrcDirURIResolver");
+			getLog().debug("Setting up SrcDirURIResolver.");
 			resolver = new SrcDirURIResolver(getSrcDir(), getLog(),
 					getProject(), getHelper(), getFilter(),
 					getFilterParameters());
