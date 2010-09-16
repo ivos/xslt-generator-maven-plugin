@@ -1,22 +1,17 @@
 package net.sf.xsltmp.filter;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 
+import net.sf.xsltmp.util.BundleLoader;
 import net.sf.xsltmp.util.FileResolver;
+import net.sf.xsltmp.util.StreamTranslator;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
-import org.apache.tools.ant.util.LineTokenizer;
 
 /**
  * Filter that performs translation of input files.
@@ -76,6 +71,15 @@ public class TranslatingFilter implements Filter {
 
 	private Map filterParameters;
 
+	public void setMavenProject(MavenProject project) {
+		this.project = project;
+	}
+
+	public void setFileResolver(FileResolver fileResolver) {
+		this.fileResolver = fileResolver;
+		this.log = fileResolver.getLog();
+	}
+
 	public void setFilterParameters(Map filterParameters) {
 		this.filterParameters = filterParameters;
 		startToken = getParam("startToken", "#");
@@ -103,156 +107,16 @@ public class TranslatingFilter implements Filter {
 		return (String) defaultValue;
 	}
 
-	public void setMavenProject(MavenProject project) {
-		this.project = project;
-	}
-
-	public void setFileResolver(FileResolver fileResolver) {
-		this.fileResolver = fileResolver;
-		this.log = fileResolver.getLog();
-	}
-
 	public void init() {
-		loadResourceMaps();
+		new BundleLoader(bundle, bundleLanguage, bundleCountry, bundleVariant,
+				bundleEncoding, fileResolver, resourceMap).loadBundle();
 	}
-
-	private boolean loaded = false;
-
-	private void loadResourceMaps() {
-		loadResourceMaps(new Locale(bundleLanguage, bundleCountry,
-				bundleVariant));
-		loadResourceMaps(Locale.getDefault());
-		if (!loaded)
-			throw new IllegalArgumentException("Bundle cannot be loaded "
-					+ bundle);
-	}
-
-	private void loadResourceMaps(Locale locale) {
-		String language = locale.getLanguage().length() > 0 ? "_"
-				+ locale.getLanguage() : "";
-		String country = locale.getCountry().length() > 0 ? "_"
-				+ locale.getCountry() : "";
-		String variant = locale.getVariant().length() > 0 ? "_"
-				+ locale.getVariant() : "";
-		processBundle(bundle + language + country + variant);
-		processBundle(bundle + language + country);
-		processBundle(bundle + language);
-		processBundle(bundle);
-	}
-
-	private void processBundle(String bundleFile) {
-		File propsFile = fileResolver.resolve(bundleFile + ".properties");
-		try {
-			Properties properties = new Properties();
-			properties.load(new InputStreamReader(
-					new FileInputStream(propsFile), bundleEncoding));
-			copyNonExistingEntries(properties);
-			loaded = true;
-			if (log.isDebugEnabled())
-				log.debug("Loaded properties: " + propsFile);
-		} catch (IOException e) {
-			if (log.isDebugEnabled())
-				log.debug("Cannot load properties: " + propsFile);
-		}
-	}
-
-	private void copyNonExistingEntries(Properties properties) {
-		for (Iterator iterator = properties.keySet().iterator(); iterator
-				.hasNext();) {
-			String key = (String) iterator.next();
-			if (!resourceMap.containsKey(key))
-				resourceMap.put(key, properties.get(key));
-		}
-	}
-
-	private String line;
 
 	public Reader filter(Reader reader, String name) throws IOException {
 		if (log.isDebugEnabled())
 			log.debug("Filtering file: " + name);
-		StringBuilder sb = new StringBuilder();
-		LineTokenizer lineTokenizer = new LineTokenizer();
-		lineTokenizer.setIncludeDelims(true);
-		line = lineTokenizer.getToken(reader);
-		while ((line) != null) {
-			String lineBefore = line;
-			translateLine();
-			if (log.isDebugEnabled() && !lineBefore.equals(line)) {
-				log.debug("Line before: " + lineBefore.trim());
-				log.debug("Line after : " + line.trim());
-			}
-			sb.append(line);
-			line = lineTokenizer.getToken(reader);
-		}
-		return new StringReader(sb.toString());
-	}
-
-	private int startIndex, endIndex;
-
-	private void translateLine() {
-		startIndex = 0;
-		nextStartToken();
-		while (isStartIndexValid()) {
-			nextEndIndex();
-			if (endIndex < 0) {
-				skip();
-			} else {
-				String token = getToken();
-				if (log.isDebugEnabled())
-					log.debug("Translating token: " + token);
-				if (!isTokenValid(token)) {
-					skip();
-				} else {
-					replaceToken(getReplaceFor(token));
-				}
-			}
-			nextStartToken();
-		}
-	}
-
-	private boolean isStartIndexValid() {
-		return startIndex >= 0
-				&& (startIndex + startToken.length()) <= line.length();
-	}
-
-	private void skip() {
-		startIndex += 1;
-	}
-
-	private void replaceToken(String replace) {
-		line = line.substring(0, startIndex) + replace
-				+ line.substring(endIndex + endToken.length());
-		startIndex += replace.length();
-	}
-
-	private String getToken() {
-		return line.substring(startIndex + startToken.length(), endIndex);
-	}
-
-	private void nextStartToken() {
-		startIndex = line.indexOf(startToken, startIndex);
-	}
-
-	private void nextEndIndex() {
-		endIndex = line.indexOf(endToken, startIndex + startToken.length());
-	}
-
-	private boolean isTokenValid(String token) {
-		for (int k = 0; k < token.length(); k++) {
-			char c = token.charAt(k);
-			if (c == ':' || c == '=' || Character.isSpaceChar(c)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private String getReplaceFor(String token) {
-		if (resourceMap.containsKey(token)) {
-			return (String) resourceMap.get(token);
-		}
-		log.warn("Replacement string missing for: " + token);
-		return startToken + token + endToken;
+		return new StreamTranslator(startToken, endToken, resourceMap, log)
+				.translate(reader);
 	}
 
 }

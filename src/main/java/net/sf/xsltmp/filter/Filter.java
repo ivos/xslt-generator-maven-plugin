@@ -14,13 +14,6 @@ import org.apache.maven.project.MavenProject;
 public interface Filter {
 
 	/**
-	 * Set the filter parameters.
-	 * 
-	 * @param filterParameters
-	 */
-	void setFilterParameters(Map filterParameters);
-
-	/**
 	 * Set Maven project instance.
 	 * 
 	 * @param project
@@ -33,6 +26,13 @@ public interface Filter {
 	 * @param fileResolver
 	 */
 	void setFileResolver(FileResolver fileResolver);
+
+	/**
+	 * Set the filter parameters.
+	 * 
+	 * @param filterParameters
+	 */
+	void setFilterParameters(Map filterParameters);
 
 	/**
 	 * Perform filter initialization.
