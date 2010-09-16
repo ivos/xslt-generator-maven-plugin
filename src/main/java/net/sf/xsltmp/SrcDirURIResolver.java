@@ -1,9 +1,10 @@
 package net.sf.xsltmp;
 
 import java.io.File;
+import java.util.Map;
 
 import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
+import javax.xml.transform.TransformerConfigurationException;
 
 import net.sf.xsltmp.util.DefaultURIResolver;
 import net.sf.xsltmp.util.UnArchiverHelper;
@@ -17,8 +18,8 @@ import org.apache.maven.project.MavenProject;
  * <p>
  * First tries to resolve from the source directory.
  * <p>
- * Then resolves from the other options, see
- * {@link DefaultURIResolver} for details.
+ * Then resolves from the other options, see {@link DefaultURIResolver} for
+ * details.
  */
 public class SrcDirURIResolver extends DefaultURIResolver {
 
@@ -40,8 +41,8 @@ public class SrcDirURIResolver extends DefaultURIResolver {
 	 *            UnArchiver helper
 	 */
 	public SrcDirURIResolver(File srcDir, Log log, MavenProject project,
-			UnArchiverHelper helper) {
-		super(log, project, helper);
+			UnArchiverHelper helper, String filter, Map filterParameters) {
+		super(log, project, helper, filter, filterParameters);
 		this.srcDir = srcDir;
 	}
 
@@ -56,11 +57,12 @@ public class SrcDirURIResolver extends DefaultURIResolver {
 	 * net.sf.seaf.mojo.util.BasedirAndClasspathURIResolver#resolve(java.lang
 	 * .String, java.lang.String)
 	 */
-	public Source resolve(String href, String base) {
+	public Source resolve(String href, String base)
+			throws TransformerConfigurationException {
 		getLog().debug("Resolving: " + href + " at srcDir: " + getSrcDir());
 		File result = new File(getSrcDir(), href);
 		if (exists(result))
-			return new StreamSource(result);
+			return createSource(result);
 		return super.resolve(href, base);
 	}
 

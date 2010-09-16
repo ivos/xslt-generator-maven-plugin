@@ -6,6 +6,11 @@
 		<author email="ivo.maixner@gmail.com">Ivo Maixner</author>
 	</properties>
 	<body>
+		<release version="1.5" date="" description="">
+			<action type="add" date="2010-09-16" dev="imaixner">
+				Add filtering functionality and TranslatingFilter.
+			</action>
+		</release>
 		<release version="1.4" date="2010-09-06" description="Release for Maven Central.">
 			<action type="add" date="2010-09-05" dev="imaixner">
 				Added force option on all goals to skip timestamp logic.

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -103,15 +102,16 @@ public class ManyToOneMojo extends FromManyBase {
 			} else {
 				getLog().info("No sources to process.");
 			}
-		} catch (TransformerException e) {
-			e.printStackTrace();
+		} catch (MojoFailureException mfe) {
+			throw mfe;
+		} catch (Exception e) {
 			throw new MojoExecutionException(e.getMessage(), e);
 		}
 	}
 
 	// Private helper methods
 
-	private File getDefaultFile() throws MojoExecutionException {
+	private File getDefaultFile() throws MojoFailureException {
 		File defaultDestDir = new File(getProject().getBuild().getDirectory(),
 				DEFAULT_DEST_DIR);
 		File empty = new File(defaultDestDir, DEFAULT_EMPTY_FILENAME);
@@ -120,7 +120,7 @@ public class ManyToOneMojo extends FromManyBase {
 		return empty;
 	}
 
-	private void createDefaultFile(File file) throws MojoExecutionException {
+	private void createDefaultFile(File file) throws MojoFailureException {
 		file.getParentFile().mkdirs();
 		try {
 			FileWriter w = new FileWriter(file);
@@ -128,13 +128,12 @@ public class ManyToOneMojo extends FromManyBase {
 			w.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new MojoExecutionException("Cannot create default source, "
+			throw new MojoFailureException("Cannot create default source, "
 					+ e.getMessage(), e);
 		}
 	}
 
-	private void storeSourceFileNamesInParam() throws MojoFailureException,
-			MojoExecutionException {
+	private void storeSourceFileNamesInParam() throws MojoFailureException {
 		try {
 			boolean xslFileChanged = hasChanged(getXslFile());
 			String srcDirPath = getSrcDir().getCanonicalPath();
@@ -162,8 +161,7 @@ public class ManyToOneMojo extends FromManyBase {
 			getParameters().put("source-file-names", names);
 			getLog().info("Stored source-file-names param: " + names);
 		} catch (IOException e) {
-			throw new MojoExecutionException("Cannot read canonical file path",
-					e);
+			throw new MojoFailureException("Cannot read canonical file path", e);
 		}
 	}
 

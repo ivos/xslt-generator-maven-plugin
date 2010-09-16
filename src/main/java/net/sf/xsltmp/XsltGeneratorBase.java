@@ -9,12 +9,13 @@ import java.util.Set;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamSource;
 
+import net.sf.xsltmp.filter.Filter;
 import net.sf.xsltmp.util.DefaultURIResolver;
 import net.sf.xsltmp.util.UnArchiverHelper;
 
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.archiver.manager.ArchiverManager;
 
@@ -63,6 +64,23 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	 */
 	private boolean force;
 
+	/**
+	 * Type of filter to use on input files (XSL templates and source files).
+	 * Must implement {@link Filter}.
+	 * 
+	 * @parameter
+	 */
+	private String filter;
+
+	/**
+	 * Map of parameters to be passed to the filter.
+	 * <p>
+	 * See the particular filter for its parameters.
+	 * 
+	 * @parameter
+	 */
+	private Map filterParameters;
+
 	private Transformer transformer = null;
 	private File xslFile = null;
 	protected DefaultURIResolver resolver = null;
@@ -101,6 +119,10 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 		return parameters;
 	}
 
+	public void setParameters(Map parameters) {
+		this.parameters = parameters;
+	}
+
 	public boolean getForce() {
 		return force;
 	}
@@ -109,12 +131,23 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 		this.force = force;
 	}
 
-	public void setParameters(Map parameters) {
-		this.parameters = parameters;
+	public String getFilter() {
+		return filter;
 	}
 
-	public Transformer getTransformer()
-			throws TransformerConfigurationException {
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	public Map getFilterParameters() {
+		return filterParameters;
+	}
+
+	public void setFilterParameters(Map filterParameters) {
+		this.filterParameters = filterParameters;
+	}
+
+	public Transformer getTransformer() throws MojoFailureException {
 		if (null == transformer)
 			createTransformer();
 		return transformer;
@@ -124,7 +157,7 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 		if (null == resolver) {
 			getLog().debug("Setting up DefaultURIResolver");
 			resolver = new DefaultURIResolver(getLog(), getProject(),
-					getHelper());
+					getHelper(), filter, filterParameters);
 		}
 		return resolver;
 	}
@@ -164,12 +197,19 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	 * Create and configure a transformer.
 	 * 
 	 * @throws TransformerConfigurationException
+	 * @throws MojoFailureException
 	 */
-	private void createTransformer() throws TransformerConfigurationException {
+	private void createTransformer() throws MojoFailureException {
 		getLog().debug("Creating transformer...");
 		TransformerFactory factory = TransformerFactory.newInstance();
 		factory.setURIResolver(getResolver());
-		transformer = factory.newTransformer(new StreamSource(getXslFile()));
+		try {
+			transformer = factory.newTransformer(getResolver().resolveAsSource(
+					getXslTemplate()));
+		} catch (TransformerConfigurationException tce) {
+			throw new MojoFailureException("Cannot process template file: "
+					+ getXslTemplate(), tce);
+		}
 		applyParameters();
 	}
 
@@ -177,8 +217,9 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	 * Apply parameters to the transformer.
 	 * 
 	 * @throws TransformerConfigurationException
+	 * @throws MojoFailureException
 	 */
-	private void applyParameters() throws TransformerConfigurationException {
+	private void applyParameters() throws MojoFailureException {
 		getLog().debug("Applying parameters...");
 		if (getParameters() != null) {
 			Set keys = getParameters().keySet();

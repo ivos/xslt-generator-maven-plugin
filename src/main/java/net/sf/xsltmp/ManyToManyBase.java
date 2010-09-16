@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -97,7 +96,9 @@ public abstract class ManyToManyBase extends FromManyBase {
 			if (!didRun)
 				getLog().info("No sources to process.");
 			addDestDir();
-		} catch (TransformerException e) {
+		} catch (MojoFailureException mfe) {
+			throw mfe;
+		} catch (Exception e) {
 			throw new MojoExecutionException(e.getMessage(), e);
 		}
 	}
