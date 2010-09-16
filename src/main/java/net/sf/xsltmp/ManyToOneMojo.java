@@ -161,7 +161,8 @@ public class ManyToOneMojo extends FromManyBase {
 			}
 			String names = b.toString();
 			getParameters().put("source-file-names", names);
-			getLog().info("Stored source-file-names param: " + names);
+			if (!"".equals(names))
+				getLog().info("Stored source-file-names param: " + names);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new MojoFailureException("Cannot read canonical file path", e);
