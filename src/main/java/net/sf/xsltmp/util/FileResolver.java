@@ -75,7 +75,7 @@ public class FileResolver {
 	 */
 	public File resolve(String filePath) {
 		getLog().debug(
-				"Resolving: " + filePath + " at absolute, "
+				"Resolving: " + filePath + " as absolute, "
 						+ "basedir or classpath");
 		// first try to resolve as absolute path
 		File result = new File(filePath);
