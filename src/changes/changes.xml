@@ -7,6 +7,9 @@
 	</properties>
 	<body>
 		<release version="1.5" date="" description="">
+			<action type="update" date="2010-09-16" dev="imaixner">
+				Remember all previous valid subdirs within archives.
+			</action>
 			<action type="add" date="2010-09-16" dev="imaixner">
 				Add filtering functionality and TranslatingFilter.
 			</action>

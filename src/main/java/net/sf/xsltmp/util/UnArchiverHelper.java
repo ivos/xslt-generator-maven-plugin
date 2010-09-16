@@ -2,6 +2,8 @@ package net.sf.xsltmp.util;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.maven.plugin.logging.Log;
@@ -53,9 +55,9 @@ public class UnArchiverHelper {
 	private final File commonExtractDir;
 
 	/**
-	 * Map of last valid paths within archives.
+	 * Map of previous valid paths within archives.
 	 */
-	private final Map lastArchiveValidSubdir;
+	private final Map archiveValidSubdirs;
 
 	/**
 	 * Constructor.
@@ -76,7 +78,7 @@ public class UnArchiverHelper {
 		this.archiverManager = archiverManager;
 		this.commonExtractDir = new File(
 				getProject().getBuild().getDirectory(), commonExtractDir);
-		lastArchiveValidSubdir = new HashMap();
+		archiveValidSubdirs = new HashMap();
 	}
 
 	public Log getLog() {
@@ -95,8 +97,8 @@ public class UnArchiverHelper {
 		return commonExtractDir;
 	}
 
-	public Map getLastArchiveValidSubdir() {
-		return lastArchiveValidSubdir;
+	public Map getArchiveValidSubdirs() {
+		return archiveValidSubdirs;
 	}
 
 	/**
@@ -118,25 +120,36 @@ public class UnArchiverHelper {
 			extract(archive, filePath);
 			if (!result.exists()) {
 				// extracting from received file path does not work
-				// ==> try extracting from last valid path dir
-				String lastValidSubdir = (String) getLastArchiveValidSubdir()
-						.get(archive.getName());
-				String newFilePath = new File(lastValidSubdir, filePath)
-						.getPath();
-				extract(archive, newFilePath);
-				result = new File(extractDir, newFilePath);
+				// ==> try extracting from previous valid path dirs
+				for (Iterator iterator = getArchiveSubdirs(archive).iterator(); iterator
+						.hasNext();) {
+					String subdir = (String) iterator.next();
+					String newFilePath = new File(subdir, filePath).getPath();
+					extract(archive, newFilePath);
+					result = new File(extractDir, newFilePath);
+				}
 			} else {
 				// extracting from received file path worked
 				// ==> store the valid path for future use
-				String subdir = new File(filePath).getParent();
-				getLastArchiveValidSubdir().put(archive.getName(), subdir);
-				if (getLog().isDebugEnabled())
-					getLog().debug(
-							"Storing last valid subdir for archive: "
-									+ archive.getName() + " as: " + subdir);
+				storeValidSubdir(archive, filePath);
 			}
 		}
 		return result;
+	}
+
+	private void storeValidSubdir(File archive, String filePath) {
+		String subdir = new File(filePath).getParent();
+		if (null == getArchiveSubdirs(archive))
+			getArchiveValidSubdirs().put(archive.getName(), new HashSet());
+		getArchiveSubdirs(archive).add(subdir);
+		if (getLog().isDebugEnabled())
+			getLog().debug(
+					"Storing last valid subdir for archive: "
+							+ archive.getName() + " as: " + subdir);
+	}
+
+	private HashSet getArchiveSubdirs(File archive) {
+		return (HashSet) getArchiveValidSubdirs().get(archive.getName());
 	}
 
 	/**
