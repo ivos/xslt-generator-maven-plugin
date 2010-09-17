@@ -156,10 +156,11 @@ public class ManyToOneMojo extends FromManyBase {
 				srcFilePath = srcFilePath.substring(srcDirPath.length() + 1)
 						.replace('\\', '/');
 				b.append(srcFilePath);
-				if (i < sourceFileNames.length - 1)
-					b.append(',');
+				b.append(',');
 			}
 			String names = b.toString();
+			if (names.endsWith(","))
+				names = names.substring(0, names.length() - 1);
 			getParameters().put("source-file-names", names);
 			if (!"".equals(names))
 				getLog().info("Stored source-file-names param: " + names);

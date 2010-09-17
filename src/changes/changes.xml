@@ -1,5 +1,4 @@
-<document xmlns="http://maven.apache.org/changes/1.0.0"
-	xmlns:xsi="http://http://www.w3.org/2001/XMLSchema-instance"
+<document xmlns="http://maven.apache.org/changes/1.0.0" xmlns:xsi="http://http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
 	<properties>
 		<title>Changes</title>
@@ -7,6 +6,13 @@
 	</properties>
 	<body>
 		<release version="1.5" date="" description="">
+			<action type="fix" date="2010-09-17" dev="imaixner">
+				Fix surplus trailing comma in source-file-names in many-to-one.
+				When a
+				source file was not last, a comma was appended.
+				When all the remaining source files were up-to-date (and therefore
+				skipped), the list of source files then ended with
+				a comma.</action>
 			<action type="update" date="2010-09-16" dev="imaixner">
 				Remember all previous valid subdirs within archives.
 			</action>
@@ -28,7 +34,8 @@
 				Moved project into its own SourceForge project.
 			</action>
 			<action type="add" date="2010-08-27" dev="imaixner">
-				Added initialize and finalize goals to enable skipping of up-to-date source files.
+				Added initialize and finalize goals to enable skipping of up-to-date
+				source files.
 			</action>
 		</release>
 		<release version="1.3" date="2010-03-18">
@@ -49,7 +56,7 @@
 		</release>
 		<release version="1.1" date="2009-01-25">
 			<action type="fix" dev="imaixner">
-				When xslt file or src dir do not exist, 
+				When xslt file or src dir do not exist,
 				just logs a warning and does not fail the build.
 			</action>
 		</release>
