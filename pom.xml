@@ -67,7 +67,6 @@
 	</issueManagement>
 	<!-- Build -->
 	<build>
-		<defaultGoal>install</defaultGoal>
 		<extensions>
 			<!-- Wagon for deployment -->
 			<extension>
