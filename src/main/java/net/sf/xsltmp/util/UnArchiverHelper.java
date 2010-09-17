@@ -139,8 +139,6 @@ public class UnArchiverHelper {
 
 	private void storeValidSubdir(File archive, String filePath) {
 		String subdir = new File(filePath).getParent();
-		if (null == getArchiveSubdirs(archive))
-			getArchiveValidSubdirs().put(archive.getName(), new HashSet());
 		getArchiveSubdirs(archive).add(subdir);
 		if (getLog().isDebugEnabled())
 			getLog().debug(
@@ -149,7 +147,12 @@ public class UnArchiverHelper {
 	}
 
 	private HashSet getArchiveSubdirs(File archive) {
-		return (HashSet) getArchiveValidSubdirs().get(archive.getName());
+		HashSet set = (HashSet) getArchiveValidSubdirs().get(archive.getName());
+		if (null == set) {
+			set = new HashSet();
+			getArchiveValidSubdirs().put(archive.getName(), set);
+		}
+		return set;
 	}
 
 	/**
