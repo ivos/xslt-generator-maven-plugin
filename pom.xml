@@ -3,7 +3,7 @@
 	<!-- Artifact -->
 	<groupId>net.sf.xsltmp</groupId>
 	<artifactId>xslt-generator-maven-plugin</artifactId>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.5</version>
 	<packaging>maven-plugin</packaging>
 	<!-- Description -->
 	<name>XSLT Generator Maven plugin</name>
