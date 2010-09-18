@@ -1,0 +1,102 @@
+ ---
+ Localize generated files
+ ---
+ Ivo Maixner
+ ---
+ 2010-09-18
+ ---
+
+Localize generated files
+
+ To generate localized output use the TranslatingFilter as follows.
+ 
+ For example, imagine you want to generate index.html file which contains 
+ the text "Hello, world!". However, when the generator is run in a German environment,
+ you want "Hallo, Welt!" to be generated instead, etc.
+ 
+ To accomplish this, put a key reference into the XSL template, like this:
+ <<<#welcome#>>>. Key reference is a key surrounded by <<<#>>> characters.
+ 
+ Then create a resource bundle containing the keys and corresponding values
+ from the XSL templates. Say, you create a src/main/resources/Resource.properties
+ file as the default bundle with the following contents:
+
++--
+welcome=Hello, world!
+log.in=Please log in to start using the system.
+# etc.
++--
+
+ Similarly, you can then create a German translation as 
+ src/main/resources/Resource_de.properties:
+
++--
+welcome=Hallo, Welt!
+# etc.
++--
+ 
+ Now, you can configure XSLT generator Maven plugin to translate files before
+ applying the XSL transformation:
+
++--
+<plugin>
+	<groupId>net.sf.xsltmp</groupId>
+	<artifactId>xslt-generator-maven-plugin</artifactId>
+	<version>${currentVersion}</version>
+	<configuration>
+		...
+		<filter>net.sf.xsltmp.filter.TranslatingFilter</filter>
+	</configuration>
+	<executions>
+		...
+	</execution>
+</plugin>
++--
+
+ And that's all. The generated files will now be localized.
+ 
+ You can also further configure the translation using filterParameters:
+
++--
+<plugin>
+	<groupId>net.sf.xsltmp</groupId>
+	<artifactId>xslt-generator-maven-plugin</artifactId>
+	<version>${currentVersion}</version>
+	<configuration>
+		...
+		<filter>net.sf.xsltmp.filter.TranslatingFilter</filter>
+		<filterParameters>
+			<startToken>#</startToken>
+			<endToken>#</endToken>
+			<bundle>Resource</bundle>
+			<bundleLanguage>en</bundleLanguage>
+			<bundleCountry>US</bundleCountry>
+			<bundleVariant>xx</bundleVariant>
+			<bundleEncoding>UTF-8</bundleEncoding>
+		</filterParameters>
+	</configuration>
+	<executions>
+		...
+	</execution>
+</plugin>
++--
+
+ The parameters are:
+
+*--*--*--+
+|Name|Default value|Description|
+*--*--*--*
+|startToken|#|Start token to identify keys is source files.|
+*--*--*--*
+|endToken|#|End token to identify keys is source files.|
+*--*--*--*
+|bundle|Resource|The name of the resource bundle with key-value pairs, eg. generator/translations/Resource.|
+*--*--*--*
+|bundleLanguage|Current locale language.|Sets fixed language to use.|
+*--*--*--*
+|bundleCountry|Current locale country.|Sets fixed country to use.|
+*--*--*--*
+|bundleVariant|Current locale variant.|Sets fixed variant to use.|
+*--*--*--*
+|bundleEncoding|Maven property $\{project.build.sourceEncoding\}.|Sets fixed encoding to use when loading the resource bundle file.|
+*--*--*--*

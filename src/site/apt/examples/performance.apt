@@ -1,12 +1,12 @@
  ---
- Skipping up-to-date source files
+ Skip up-to-date source files
  ---
  Ivo Maixner
  ---
  2010-09-03
  ---
 
-Skipping up-to-date source files
+Skip up-to-date source files
 
  When generating output files using <<<xsl:result-document>>> command 
  (typically in the many-to-dynamic goal), the XSLT generator Maven plugin has no way 

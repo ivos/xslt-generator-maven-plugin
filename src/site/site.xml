@@ -14,6 +14,7 @@
 			<item name="Default source in many-to-one" href="examples/default-source.html" />
 			<item name="Add destination dir" href="examples/add-destination.html" />
 			<item name="Rename files in-course" href="examples/rename.html" />
+			<item name="Localize generated files" href="examples/translate.html" />
 			<item name="Use Saxon" href="examples/saxon.html" />
 		</menu>
 		<menu ref="reports" />

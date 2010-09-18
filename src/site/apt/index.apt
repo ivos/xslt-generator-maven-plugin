@@ -42,7 +42,7 @@ XSLT Generator Maven plugin
 
  []
  
- To enable skipping generation of up-to-date files (leading to performance optimization), configure
+ To skip generation of up-to-date files (leading to performance optimization), configure
  also the following goals (see "Optimize performance" example below):
  
  * {{{./initialize-mojo.html}xslt-generator:initialize}}
@@ -59,15 +59,17 @@ XSLT Generator Maven plugin
 
  * {{{./examples/single.html}Transform a set of .xml files into a single destination file}}
 
- * {{{./examples/performance.html}Optimize performance - enable skipping of up-to-date files}}
+ * {{{./examples/performance.html}Optimize performance - skip up-to-date files}}
 
- * {{{./examples/default-source.html}Using default source file in many-to-one transformation}}
+ * {{{./examples/default-source.html}Use default source file in many-to-one transformation}}
 
  * {{{./examples/add-destination.html}Add the destination directory to project sources or resources}}
 
- * {{{./examples/rename.html}Renaming files during many-to-many transformation}}
+ * {{{./examples/rename.html}Rename files during many-to-many transformation}}
 
- * {{{./examples/saxon.html}Using Saxon as the XSLT processor}}
+ * {{{./examples/translate.html}Localize generated files}}
+
+ * {{{./examples/saxon.html}Use Saxon as the XSLT processor}}
  
 * Stylesheet and source files resolution
 

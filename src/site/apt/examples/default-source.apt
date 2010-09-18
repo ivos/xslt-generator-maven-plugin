@@ -1,12 +1,12 @@
  ---
- Using default source file in many-to-one transformation
+ Use default source file in many-to-one transformation
  ---
  Ivo Maixner
  ---
  2008-10-29
  ---
 
-Using default source file in many-to-one transformation
+Use default source file in many-to-one transformation
 
  The single (main) source file (srcFile) in the many-to-one mojo is not mandatory.
  If not set, the mojo creates a default source file on the following path:
