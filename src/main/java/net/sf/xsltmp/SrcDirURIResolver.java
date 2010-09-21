@@ -39,10 +39,17 @@ public class SrcDirURIResolver extends DefaultURIResolver {
 	 *            Maven project
 	 * @param helper
 	 *            UnArchiver helper
+	 * @param sourceEncoding
+	 *            Source encoding
+	 * @param filter
+	 *            Source files filter
+	 * @param filterParameters
+	 *            Filter parameters
 	 */
 	public SrcDirURIResolver(File srcDir, Log log, MavenProject project,
-			UnArchiverHelper helper, String filter, Map filterParameters) {
-		super(log, project, helper, filter, filterParameters);
+			UnArchiverHelper helper, String sourceEncoding, String filter,
+			Map filterParameters) {
+		super(log, project, helper, sourceEncoding, filter, filterParameters);
 		this.srcDir = srcDir;
 	}
 

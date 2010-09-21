@@ -65,6 +65,15 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	private boolean force;
 
 	/**
+	 * Read the source files (XSL templates and XML transformation sources)
+	 * using this encoding.
+	 * 
+	 * @parameter expression="${project.build.sourceEncoding}"
+	 * @required
+	 */
+	private String sourceEncoding;
+
+	/**
 	 * Type of filter to use on input files (XSL templates and source files).
 	 * Must implement {@link Filter}.
 	 * 
@@ -131,6 +140,14 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 		this.force = force;
 	}
 
+	public String getSourceEncoding() {
+		return sourceEncoding;
+	}
+
+	public void setSourceEncoding(String sourceEncoding) {
+		this.sourceEncoding = sourceEncoding;
+	}
+
 	public String getFilter() {
 		return filter;
 	}
@@ -155,9 +172,15 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 
 	public DefaultURIResolver getResolver() {
 		if (null == resolver) {
-			getLog().debug("Setting up DefaultURIResolver.");
+			if (getLog().isDebugEnabled())
+				getLog().debug(
+						"Setting up DefaultURIResolver: sourceEncoding="
+								+ getSourceEncoding() + ", filter="
+								+ getFilter() + ", filterParameters="
+								+ getFilterParameters());
 			resolver = new DefaultURIResolver(getLog(), getProject(),
-					getHelper(), filter, filterParameters);
+					getHelper(), getSourceEncoding(), getFilter(),
+					getFilterParameters());
 		}
 		return resolver;
 	}

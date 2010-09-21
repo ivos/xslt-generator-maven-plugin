@@ -1,9 +1,11 @@
 package net.sf.xsltmp.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -30,9 +32,13 @@ import org.apache.maven.project.MavenProject;
 public class DefaultURIResolver extends FileResolver implements URIResolver {
 
 	/**
+	 * Read the source files (XSL templates and XML transformation sources)
+	 * using this encoding.
+	 */
+	private final String sourceEncoding;
+
+	/**
 	 * Type of filter to use. Must implement {@link Filter}.
-	 * 
-	 * @parameter
 	 */
 	private final String filterType;
 
@@ -40,8 +46,6 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 	 * Map of parameters to be passed to the filter.
 	 * <p>
 	 * See the particular filter for its parameters.
-	 * 
-	 * @parameter
 	 */
 	private final Map filterParameters;
 
@@ -54,10 +58,18 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 	 *            Maven project
 	 * @param helper
 	 *            UnArchiver helper
+	 * @param sourceEncoding
+	 *            Source encoding
+	 * @param filter
+	 *            Source files filter
+	 * @param filterParameters
+	 *            Filter parameters
 	 */
 	public DefaultURIResolver(Log log, MavenProject project,
-			UnArchiverHelper helper, String filter, Map filterParameters) {
+			UnArchiverHelper helper, String sourceEncoding, String filter,
+			Map filterParameters) {
 		super(log, project, helper);
+		this.sourceEncoding = sourceEncoding;
 		this.filterType = filter;
 		this.filterParameters = filterParameters;
 	}
@@ -86,7 +98,8 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 	protected Source createSource(File file)
 			throws TransformerConfigurationException {
 		try {
-			Reader reader = new FileReader(file);
+			Reader reader = new InputStreamReader(new FileInputStream(file),
+					sourceEncoding);
 			reader = wrapInFilter(reader, file.toString());
 			StreamSource source = new StreamSource(reader);
 			source.setSystemId(file);
@@ -95,6 +108,10 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 			fnfe.printStackTrace();
 			throw new TransformerConfigurationException("File not found: "
 					+ file, fnfe);
+		} catch (UnsupportedEncodingException uee) {
+			uee.printStackTrace();
+			throw new TransformerConfigurationException(
+					"Unsupported source encoding: " + sourceEncoding, uee);
 		}
 	}
 
