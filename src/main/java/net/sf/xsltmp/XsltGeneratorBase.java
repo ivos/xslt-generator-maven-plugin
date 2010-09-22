@@ -18,6 +18,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.archiver.manager.ArchiverManager;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * The base class for XSLT Generator. Based on Codehaus xslt-maven-plugin.
@@ -69,7 +70,6 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	 * using this encoding.
 	 * 
 	 * @parameter expression="${project.build.sourceEncoding}"
-	 * @required
 	 */
 	private String sourceEncoding;
 
@@ -141,6 +141,13 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	}
 
 	public String getSourceEncoding() {
+		if (StringUtils.isEmpty(sourceEncoding)) {
+			sourceEncoding = System.getProperty("file.encoding");
+			getLog().warn(
+					"Source encoding has not been set, "
+							+ "using platform encoding " + sourceEncoding
+							+ ", i.e. build is platform dependent!");
+		}
 		return sourceEncoding;
 	}
 
