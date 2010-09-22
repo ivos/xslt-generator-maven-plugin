@@ -53,6 +53,7 @@ public class ManyToOneMojo extends FromManyBase {
 	private File destFile;
 
 	private boolean shouldRun = false;
+	private File resolvedSrcFile;
 
 	// Standard getters and setters for the properties
 
@@ -72,6 +73,14 @@ public class ManyToOneMojo extends FromManyBase {
 		this.destFile = destFile;
 	}
 
+	public boolean getShouldRun() {
+		return shouldRun;
+	}
+
+	public File getResolvedSrcFile() {
+		return resolvedSrcFile;
+	}
+
 	// Mojo implementation
 
 	protected String getMojoName() {
@@ -86,18 +95,17 @@ public class ManyToOneMojo extends FromManyBase {
 				return;
 			ensureDestFileDirExists(getDestFile());
 
-			storeSourceFileNamesInParam();
-			File amendedSrcFile;
-			if (doesSrcFileExists()) {
-				amendedSrcFile = getSrcFile();
-				shouldRun |= hasChanged(amendedSrcFile);
-			} else {
+			prepare();
+			if (!doesSrcFileExists()) {
 				getLog().info("Source file does not exist, using default.");
-				amendedSrcFile = getDefaultFile();
 			}
+			Object sourceFileNames = getParameters().get("source-file-names");
+			if (!"".equals(sourceFileNames))
+				getLog().info(
+						"Stored source-file-names param: " + sourceFileNames);
 			if (shouldRun) {
 				logExecution(getSrcFile());
-				getTransformer().transform(new StreamSource(amendedSrcFile),
+				getTransformer().transform(new StreamSource(resolvedSrcFile),
 						new StreamResult(getDestFile()));
 			} else {
 				getLog().info("No sources to process.");
@@ -107,6 +115,16 @@ public class ManyToOneMojo extends FromManyBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new MojoExecutionException(e.getMessage(), e);
+		}
+	}
+
+	public void prepare() throws MojoFailureException {
+		storeSourceFileNamesInParam();
+		if (doesSrcFileExists()) {
+			resolvedSrcFile = getSrcFile();
+			shouldRun |= hasChanged(resolvedSrcFile);
+		} else {
+			resolvedSrcFile = getDefaultFile();
 		}
 	}
 
@@ -162,8 +180,6 @@ public class ManyToOneMojo extends FromManyBase {
 			if (names.endsWith(","))
 				names = names.substring(0, names.length() - 1);
 			getParameters().put("source-file-names", names);
-			if (!"".equals(names))
-				getLog().info("Stored source-file-names param: " + names);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new MojoFailureException("Cannot read canonical file path", e);
