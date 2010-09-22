@@ -12,6 +12,7 @@ import net.sf.xsltmp.util.StreamTranslator;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Filter that performs translation of input files.
@@ -93,6 +94,12 @@ public class TranslatingFilter implements Filter {
 				.getVariant());
 		bundleEncoding = getParam("bundleEncoding", project.getProperties()
 				.get("project.build.sourceEncoding"));
+		if (StringUtils.isEmpty(bundleEncoding)) {
+			bundleEncoding = System.getProperty("file.encoding");
+			log.warn("Source encoding has not been set, "
+					+ "using platform encoding " + bundleEncoding
+					+ ", i.e. build is platform dependent!");
+		}
 		if (log.isDebugEnabled())
 			log.debug("Initialized TranslatingFilter: startToken=" + startToken
 					+ ", endToken=" + endToken + ", bundle=" + bundle
