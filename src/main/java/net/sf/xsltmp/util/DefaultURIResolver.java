@@ -15,6 +15,7 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
 
+import net.sf.xsltmp.XsltGeneratorConstants;
 import net.sf.xsltmp.filter.Filter;
 
 import org.apache.maven.plugin.logging.Log;
@@ -29,7 +30,8 @@ import org.apache.maven.project.MavenProject;
  * See {@link FileResolver} for description of the absolute path, basedir and
  * classpath resolution.
  */
-public class DefaultURIResolver extends FileResolver implements URIResolver {
+public class DefaultURIResolver extends FileResolver implements URIResolver,
+		XsltGeneratorConstants {
 
 	/**
 	 * Read the source files (XSL templates and XML transformation sources)
@@ -48,6 +50,8 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 	 * See the particular filter for its parameters.
 	 */
 	private final Map filterParameters;
+
+	private final FileCache filteredContent;
 
 	/**
 	 * Constructor.
@@ -72,6 +76,10 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 		this.sourceEncoding = sourceEncoding;
 		this.filterType = filter;
 		this.filterParameters = filterParameters;
+		File buildBase = new File(getProject().getBuild().getDirectory());
+		File filteredBase = new File(buildBase, FILTERED_DIR);
+		filteredContent = new FileCache(log, buildBase, filteredBase,
+				sourceEncoding);
 	}
 
 	public Source resolve(String href, String base)
@@ -100,7 +108,7 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 		try {
 			Reader reader = new InputStreamReader(new FileInputStream(file),
 					sourceEncoding);
-			reader = wrapInFilter(reader, file.toString());
+			reader = wrapInFilter(reader, file);
 			StreamSource source = new StreamSource(reader);
 			source.setSystemId(file);
 			return source;
@@ -117,9 +125,12 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 
 	private Filter filter;
 
-	private Reader wrapInFilter(Reader reader, String name)
+	private Reader wrapInFilter(Reader reader, File file)
 			throws TransformerConfigurationException {
 		if (null != filterType) {
+			Reader cached = filteredContent.retrieve(file);
+			if (null != cached)
+				return cached;
 			try {
 				if (null == filter) {
 					if (getLog().isDebugEnabled())
@@ -132,7 +143,8 @@ public class DefaultURIResolver extends FileResolver implements URIResolver {
 				}
 				if (getLog().isDebugEnabled())
 					getLog().debug("Applying filter: " + filterType);
-				return filter.filter(reader, name);
+				reader = filter.filter(reader, file.getPath());
+				filteredContent.store(reader, file);
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new TransformerConfigurationException(

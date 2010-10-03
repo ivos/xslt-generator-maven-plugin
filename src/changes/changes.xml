@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release version="1.6" date="" description="">
+			<action type="add" date="2010-10-03" dev="imaixner">
+				Add caching of filtered contents of files.
+			</action>
 			<action type="add" date="2010-09-21" dev="imaixner">
 				Add sourceEncoding parameter to specify encoding to read source files.
 			</action>
