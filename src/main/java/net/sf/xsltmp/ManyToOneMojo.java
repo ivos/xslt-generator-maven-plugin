@@ -54,6 +54,7 @@ public class ManyToOneMojo extends FromManyBase {
 
 	private boolean shouldRun = false;
 	private File resolvedSrcFile;
+	public static final String SOURCE_FILE_NAMES_SEPARATOR = ",";
 
 	// Standard getters and setters for the properties
 
@@ -174,10 +175,10 @@ public class ManyToOneMojo extends FromManyBase {
 				srcFilePath = srcFilePath.substring(srcDirPath.length() + 1)
 						.replace('\\', '/');
 				b.append(srcFilePath);
-				b.append(',');
+				b.append(SOURCE_FILE_NAMES_SEPARATOR);
 			}
 			String names = b.toString();
-			if (names.endsWith(","))
+			if (names.endsWith(SOURCE_FILE_NAMES_SEPARATOR))
 				names = names.substring(0, names.length() - 1);
 			getParameters().put("source-file-names", names);
 		} catch (IOException e) {
