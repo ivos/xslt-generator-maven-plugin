@@ -128,28 +128,43 @@ public class DefaultURIResolver extends FileResolver implements URIResolver,
 	private Reader wrapInFilter(Reader reader, File file)
 			throws TransformerConfigurationException {
 		if (null != filterType) {
-			Reader cached = filteredContent.retrieve(file);
-			if (null != cached)
-				return cached;
-			try {
-				if (null == filter) {
-					if (getLog().isDebugEnabled())
-						getLog().debug("Initializing filter: " + filterType);
-					filter = (Filter) Class.forName(filterType).newInstance();
-					filter.setMavenProject(getProject());
-					filter.setFileResolver(this);
-					filter.setFilterParameters(filterParameters);
-					filter.init();
-				}
-				if (getLog().isDebugEnabled())
-					getLog().debug("Applying filter: " + filterType);
-				reader = filter.filter(reader, file.getPath());
+			if (isTemplate(file)) {
+				Reader cached = filteredContent.retrieve(file);
+				if (null != cached)
+					return cached;
+				reader = performFiltering(reader, file);
 				filteredContent.store(reader, file);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new TransformerConfigurationException(
-						"Cannot process filter: " + filterType, e);
+			} else {
+				if (getLog().isDebugEnabled())
+					getLog().debug("File not filtered, not a template: " + file);
 			}
+		}
+		return reader;
+	}
+
+	private boolean isTemplate(File file) {
+		return file.getName().endsWith(".xsl");
+	}
+
+	private Reader performFiltering(Reader reader, File file)
+			throws TransformerConfigurationException {
+		try {
+			if (null == filter) {
+				if (getLog().isDebugEnabled())
+					getLog().debug("Initializing filter: " + filterType);
+				filter = (Filter) Class.forName(filterType).newInstance();
+				filter.setMavenProject(getProject());
+				filter.setFileResolver(this);
+				filter.setFilterParameters(filterParameters);
+				filter.init();
+			}
+			if (getLog().isDebugEnabled())
+				getLog().debug("Applying filter: " + filterType);
+			reader = filter.filter(reader, file.getPath());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new TransformerConfigurationException(
+					"Cannot process filter: " + filterType, e);
 		}
 		return reader;
 	}
