@@ -15,11 +15,11 @@ import org.apache.maven.plugin.MojoFailureException;
  * file.
  * <p>
  * The names of the multiple source files are passed into the template as a
- * comma-separated list in a parameter named 'source-file-names'. In the
+ * pipe-separated list in a parameter named 'source-file-names'. In the
  * template, define a global template parameter as follows:
  * <code>&lt;xsl:param name="source-file-names" /></code>. Then the content of
  * the files can be loaded as follows:
- * <code>&lt;xsl:variable name="source-files" select="document(tokenize($source-file-names,','))" /></code>.
+ * <code>&lt;xsl:variable name="source-files" select="document(tokenize($source-file-names,'\|'))" /></code>.
  * <p>
  * From the XSL engine point of view, it is then in fact a single, 1:1
  * transformation: a single source file is transformed into a single destination
@@ -54,7 +54,7 @@ public class ManyToOneMojo extends FromManyBase {
 
 	private boolean shouldRun = false;
 	private File resolvedSrcFile;
-	public static final String SOURCE_FILE_NAMES_SEPARATOR = ",";
+	public static final String SOURCE_FILE_NAMES_SEPARATOR = "|";
 
 	// Standard getters and setters for the properties
 

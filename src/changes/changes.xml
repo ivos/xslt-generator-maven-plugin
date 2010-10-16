@@ -7,6 +7,10 @@
 	<body>
 		<release version="1.6" date="" description="">
 			<action type="update" date="2010-10-16" dev="imaixner">
+				Change source file names separator from comma ',' to pipe '|'.
+				Eliminates problems when a file name includes comma.
+			</action>
+			<action type="update" date="2010-10-16" dev="imaixner">
 				Apply filters only to XSL templates, not XML source files.
 			</action>
 			<action type="add" date="2010-10-03" dev="imaixner">
