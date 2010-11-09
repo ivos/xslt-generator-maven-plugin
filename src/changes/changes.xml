@@ -5,7 +5,7 @@
 		<author email="ivo.maixner@gmail.com">Ivo Maixner</author>
 	</properties>
 	<body>
-		<release version="1.6" date="" description="">
+		<release version="1.6" date="2010-11-09" description="">
 			<action type="update" date="2010-10-16" dev="imaixner">
 				Change source file names separator from comma ',' to pipe '|'.
 				Eliminates problems when a file name includes comma.
