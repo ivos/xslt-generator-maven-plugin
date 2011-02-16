@@ -56,7 +56,7 @@
 		</repository>
 		<site>
 			<id>xsltmp.sf.net</id>
-			<url>scpexe://shell.sourceforge.net/home/groups/x/xs/xsltmp/htdocs</url>
+			<url>scpexe://shell.sourceforge.net/home/project-web/xsltmp/htdocs</url>
 		</site>
 	</distributionManagement>
 	<issueManagement>
