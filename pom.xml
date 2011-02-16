@@ -30,7 +30,6 @@
 			<comments>A business-friendly Open Source license</comments>
 		</license>
 	</licenses>
-	<!-- Properties -->
 	<properties>
 		<maven.compiler.source>1.4</maven.compiler.source>
 		<maven.compiler.target>1.4</maven.compiler.target>
@@ -38,7 +37,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<currentVersion>${project.version}</currentVersion>
 	</properties>
-	<!-- SCM & Distribution -->
 	<scm>
 		<connection>scm:git:git://xsltmp.git.sourceforge.net/gitroot/xsltmp/xslt-generator-maven-plugin.git/</connection>
 		<developerConnection>scm:git:ssh://imaixner@xsltmp.git.sourceforge.net/gitroot/xsltmp/xslt-generator-maven-plugin.git/</developerConnection>
