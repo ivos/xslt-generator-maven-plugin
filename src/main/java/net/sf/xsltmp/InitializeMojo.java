@@ -3,6 +3,8 @@ package net.sf.xsltmp;
 import java.io.File;
 import java.io.IOException;
 
+import net.sf.xsltmp.util.TimestampUtils;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -42,9 +44,9 @@ public class InitializeMojo extends AbstractMojo implements
 	}
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		File dir = new File(getProject().getBuild().getDirectory(), BASE_DIR);
-		File file = new File(dir, PREPARED_TIMESTAMP_FILENAME);
-		dir.mkdirs();
+		TimestampUtils timestampUtils = new TimestampUtils(project);
+		File file = timestampUtils.getPreparedTimestampFile();
+		timestampUtils.getTimestampDir().mkdirs();
 		try {
 			file.createNewFile();
 			file.setLastModified(System.currentTimeMillis());

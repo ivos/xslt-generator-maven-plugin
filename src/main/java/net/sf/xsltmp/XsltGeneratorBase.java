@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerFactory;
 
 import net.sf.xsltmp.filter.Filter;
 import net.sf.xsltmp.util.DefaultURIResolver;
+import net.sf.xsltmp.util.TimestampUtils;
 import net.sf.xsltmp.util.UnArchiverHelper;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -214,9 +215,7 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	 */
 	public File getTimestamp() {
 		if (null == timestamp) {
-			File timestampDir = new File(
-					getProject().getBuild().getDirectory(), BASE_DIR);
-			timestamp = new File(timestampDir, TIMESTAMP_FILENAME);
+			timestamp = new TimestampUtils(project).getTimestampFile();
 		}
 		return timestamp;
 	}
