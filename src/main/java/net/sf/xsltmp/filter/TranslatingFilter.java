@@ -7,12 +7,12 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.xsltmp.util.BundleLoader;
+import net.sf.xsltmp.util.EncodingUtils;
 import net.sf.xsltmp.util.FileResolver;
 import net.sf.xsltmp.util.StreamTranslator;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Filter that performs translation of input files.
@@ -94,12 +94,8 @@ public class TranslatingFilter implements Filter {
 				.getVariant());
 		bundleEncoding = getParam("bundleEncoding", project.getProperties()
 				.get("project.build.sourceEncoding"));
-		if (StringUtils.isEmpty(bundleEncoding)) {
-			bundleEncoding = System.getProperty("file.encoding");
-			log.warn("Source encoding has not been set, "
-					+ "using platform encoding " + bundleEncoding
-					+ ", i.e. build is platform dependent!");
-		}
+		bundleEncoding = ENCODING_UTILS.defaultByPlatformEncoding(
+				bundleEncoding, log);
 		if (log.isDebugEnabled())
 			log.debug("Initialized TranslatingFilter: startToken=" + startToken
 					+ ", endToken=" + endToken + ", bundle=" + bundle
@@ -107,6 +103,8 @@ public class TranslatingFilter implements Filter {
 					+ bundleCountry + ", bundleVariant=" + bundleVariant
 					+ ", bundleEncoding=" + bundleEncoding);
 	}
+
+	private static final EncodingUtils ENCODING_UTILS = new EncodingUtils();
 
 	private String getParam(String key, Object defaultValue) {
 		if (null != filterParameters && filterParameters.containsKey(key))

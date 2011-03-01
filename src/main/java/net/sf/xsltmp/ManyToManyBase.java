@@ -1,13 +1,12 @@
 package net.sf.xsltmp;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.maven.model.Resource;
+import net.sf.xsltmp.util.AddSourcesUtils;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
@@ -150,38 +149,10 @@ public abstract class ManyToManyBase extends FromManyBase {
 	 * Add the destination directory to the project.
 	 */
 	protected void addDestDir() {
-		if ("sources".equals(getAddDestDirTo())) {
-			getProject().addCompileSourceRoot(getDestDir().getAbsolutePath());
-			logAddedDestDir();
-		}
-		if ("test-sources".equals(getAddDestDirTo())) {
-			getProject().addTestCompileSourceRoot(
-					getDestDir().getAbsolutePath());
-			logAddedDestDir();
-		}
-		if ("resources".equals(getAddDestDirTo())) {
-			getProject().addResource(getDestDirResource());
-			logAddedDestDir();
-		}
-		if ("test-resources".equals(getAddDestDirTo())) {
-			getProject().addTestResource(getDestDirResource());
-			logAddedDestDir();
-		}
-	}
-
-	private Resource getDestDirResource() {
-		Resource resource = new Resource();
-		resource.setDirectory(getDestDir().getAbsolutePath());
-		List excludes = new ArrayList();
-		excludes.add("**/*.java");
-		resource.setExcludes(excludes);
-		return resource;
-	}
-
-	private void logAddedDestDir() {
-		getLog().info(
-				"Added to " + getAddDestDirTo() + " destDir: "
-						+ getDestDir().getAbsolutePath());
+		AddSourcesUtils addSourcesUtils = new AddSourcesUtils(getProject(),
+				getLog());
+		addSourcesUtils.addSources(getAddDestDirTo(), getDestDir());
+		addSourcesUtils.addResources(getAddDestDirTo(), getDestDir());
 	}
 
 }

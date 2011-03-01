@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerFactory;
 
 import net.sf.xsltmp.filter.Filter;
 import net.sf.xsltmp.util.DefaultURIResolver;
+import net.sf.xsltmp.util.EncodingUtils;
 import net.sf.xsltmp.util.TimestampUtils;
 import net.sf.xsltmp.util.UnArchiverHelper;
 
@@ -19,7 +20,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.archiver.manager.ArchiverManager;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * The base class for XSLT Generator. Based on Codehaus xslt-maven-plugin.
@@ -142,15 +142,12 @@ public abstract class XsltGeneratorBase extends AbstractMojo implements
 	}
 
 	public String getSourceEncoding() {
-		if (StringUtils.isEmpty(sourceEncoding)) {
-			sourceEncoding = System.getProperty("file.encoding");
-			getLog().warn(
-					"Source encoding has not been set, "
-							+ "using platform encoding " + sourceEncoding
-							+ ", i.e. build is platform dependent!");
-		}
+		sourceEncoding = ENCODING_UTILS.defaultByPlatformEncoding(
+				sourceEncoding, getLog());
 		return sourceEncoding;
 	}
+
+	private static final EncodingUtils ENCODING_UTILS = new EncodingUtils();
 
 	public void setSourceEncoding(String sourceEncoding) {
 		this.sourceEncoding = sourceEncoding;
